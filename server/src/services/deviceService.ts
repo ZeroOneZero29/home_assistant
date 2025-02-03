@@ -23,7 +23,6 @@ class getInfoDevice {
         maxBodyLength: Infinity,
         url: 'https://api.iot.yandex.net/v1.0/devices/actions',
         headers: { 
-          'Authorization': 'Bearer y0__xCy0vTdARjJ8DQgsMf3lBK31iFzMwp_zxgsIrgEjxIChtzHUw', 
           'Content-Type': 'application/json'
         },
         data : data
