@@ -14,12 +14,5 @@ exports.AppDataSource = new typeorm_1.DataSource({
     synchronize: true,
     logging: true,
     entities: [User_1.User],
-    subscribers: [],
-    migrations: [],
 });
-exports.AppDataSource.initialize()
-    .then(() => {
-    // here you can start to work with your database
-})
-    .catch((error) => console.log(error));
 //# sourceMappingURL=data-souse.js.map

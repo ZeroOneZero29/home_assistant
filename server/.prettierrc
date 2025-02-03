@@ -1,8 +1,9 @@
-{
-  "semi": true,
-  "singleQuote": false,
-  "bracketSpacing": true,
-  "tabWidth": 2,
-  "arrowParens": "always",
-  "endOfLine": "lf"
-}
+//{
+//  "semi": true,
+//  "singleQuote": false,
+//  "bracketSpacing": true,
+//  "tabWidth": 2,
+//  "arrowParens": "always",
+//  "endOfLine": "lf",
+//  "printWidth": 100
+//}
