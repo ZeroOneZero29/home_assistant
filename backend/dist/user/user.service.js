@@ -46,6 +46,16 @@ let UserService = class UserService {
         const requreData = { name: user.name, refreshToken: user.refreshToken };
         return requreData;
     }
+    async updateUser(userLoginDto) {
+        const { email } = userLoginDto;
+        const user = await this.userRepository.findOneBy({ email });
+        if (!user) {
+            throw new common_1.NotFoundException(`Пользователь с данным ${email} не найден`);
+        }
+        user.oauthToken = 'dada';
+        await this.userRepository.save(user);
+        return user;
+    }
     async getUser() {
         return this.userRepository.find();
     }

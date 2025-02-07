@@ -1,13 +1,17 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './auth/user.module';
+import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { ConfigModule } from '@nestjs/config';
+import { DeviceModule } from './device/device.module';
+import config from './config/config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
+      load: [config],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -21,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: true,
     }),
     UserModule,
+    DeviceModule,
   ],
   controllers: [],
   providers: [],

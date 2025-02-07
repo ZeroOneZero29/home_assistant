@@ -5,6 +5,7 @@ export declare class UserController {
     constructor(userService: UserService);
     regestrationUser(userRegDto: UserRegDto): Promise<import("../entity/user.entity").User>;
     loginUser(userLoginDto: UserLoginDto): Promise<object>;
+    userUpade(userLoginDto: UserLoginDto): Promise<import("../entity/user.entity").User>;
     getUser(): Promise<import("../entity/user.entity").User[]>;
     getOneUser(loginUserDto: UserRegDto): Promise<any>;
 }

@@ -27,8 +27,8 @@ export class UserService {
     };
 
     console.log(userRegDto);
-
     const user = this.userRepository.create(userToDB);
+
     return this.userRepository.save(user);
   }
 
@@ -44,6 +44,18 @@ export class UserService {
     }
     const requreData = { name: user.name, refreshToken: user.refreshToken };
     return requreData;
+  }
+
+  async updateUser(userLoginDto: UserLoginDto): Promise<User> {
+    const { email } = userLoginDto;
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user) {
+      throw new NotFoundException(`Пользователь с данным ${email} не найден`);
+    }
+    user.oauthToken = 'dada';
+
+    await this.userRepository.save(user);
+    return user;
   }
 
   async getUser(): Promise<User[]> {

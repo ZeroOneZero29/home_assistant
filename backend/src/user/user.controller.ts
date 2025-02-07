@@ -18,6 +18,12 @@ export class UserController {
     return this.userService.loginUser(userLoginDto);
   }
 
+  @Post('/update')
+  public async userUpade(@Body() userLoginDto: UserLoginDto) {
+    console.log(userLoginDto);
+    return this.userService.updateUser(userLoginDto);
+  }
+
   @Get('/all')
   public async getUser() {
     return this.userService.getUser();

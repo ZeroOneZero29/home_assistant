@@ -6,20 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthModule = void 0;
+exports.DeviceModule = void 0;
 const common_1 = require("@nestjs/common");
-const user_service_1 = require("./user.service");
-const user_controller_1 = require("./user.controller");
-const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("../entity/user.entity");
-let AuthModule = class AuthModule {
+const device_service_1 = require("./device.service");
+const device_controller_1 = require("./device.controller");
+const axios_1 = require("@nestjs/axios");
+const config_1 = require("@nestjs/config");
+let DeviceModule = class DeviceModule {
 };
-exports.AuthModule = AuthModule;
-exports.AuthModule = AuthModule = __decorate([
+exports.DeviceModule = DeviceModule;
+exports.DeviceModule = DeviceModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User])],
-        providers: [user_service_1.AuthService],
-        controllers: [user_controller_1.AuthController],
+        imports: [axios_1.HttpModule, config_1.ConfigModule],
+        providers: [device_service_1.DeviceService],
+        controllers: [device_controller_1.DeviceController],
     })
-], AuthModule);
-//# sourceMappingURL=auth.module.js.map
+], DeviceModule);
+//# sourceMappingURL=device.module.js.map

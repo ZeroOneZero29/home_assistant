@@ -28,6 +28,10 @@ let UserController = class UserController {
         console.log(userLoginDto);
         return this.userService.loginUser(userLoginDto);
     }
+    async userUpade(userLoginDto) {
+        console.log(userLoginDto);
+        return this.userService.updateUser(userLoginDto);
+    }
     async getUser() {
         return this.userService.getUser();
     }
@@ -50,6 +54,13 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "loginUser", null);
+__decorate([
+    (0, common_1.Post)('/update'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.UserLoginDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "userUpade", null);
 __decorate([
     (0, common_1.Get)('/all'),
     __metadata("design:type", Function),
