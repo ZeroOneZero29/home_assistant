@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeviceDto } from './device.dto';
 import { HttpService, HttpModule } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { catchError } from 'rxjs';
 
 @Injectable()
 export class DeviceService {
@@ -21,21 +22,20 @@ export class DeviceService {
     const response = await this.httpService
       .get('https://api.iot.yandex.net/v1.0/user/info', configAxios)
       .toPromise();
-    console.log(response?.data);
 
     return response?.data;
   }
 
   async getInfoDeviceById(deviceDto: number) {
     const configAxios = {
+      url: `https://api.iot.yandex.net/v1.0/devices/${deviceDto}`,
       method: 'get',
       headers: {
         Authorization: this.configService.get('yandex'),
       },
     };
-    const response = await this.httpService
-      .get(`https://api.iot.yandex.net/v1.0/devices/${deviceDto}`, configAxios)
-      .toPromise();
+    const response = await this.httpService.request(configAxios).toPromise();
+
     return response?.data;
   }
 

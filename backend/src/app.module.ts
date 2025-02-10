@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { DeviceModule } from './device/device.module';
+import { AuthModule } from './auth/auth.module';
 import config from './config/config';
 
 @Module({
@@ -26,6 +27,7 @@ import config from './config/config';
     }),
     UserModule,
     DeviceModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  InternalServerErrorException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { DeviceDto } from './device.dto';
 import { DeviceService } from './device.service';
+import { NotFoundError } from 'rxjs';
 
 @Controller('device')
 export class DeviceController {
@@ -13,9 +22,13 @@ export class DeviceController {
 
   @Get('/info_device')
   public async getInfoDeviceId(@Query() deviceDto: DeviceDto) {
-    console.log(deviceDto.deviceID);
-    const id = deviceDto.deviceID;
-    return this.deviceService.getInfoDeviceById(id);
+    try {
+      console.log(deviceDto.deviceID);
+      const id = deviceDto.deviceID;
+      return this.deviceService.getInfoDeviceById(id);
+    } catch (err: unknown) {
+      throw new InternalServerErrorException(err);
+    }
   }
 
   @Post('/action')

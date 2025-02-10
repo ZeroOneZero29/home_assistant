@@ -7,8 +7,10 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  @InjectRepository(User)
-  private userRepository: Repository<User>;
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
   async createUser(userRegDto: UserRegDto): Promise<User> {
     const { email } = userRegDto;
@@ -30,6 +32,10 @@ export class UserService {
     const user = this.userRepository.create(userToDB);
 
     return this.userRepository.save(user);
+  }
+
+  async findUserById(id: number): Promise<User[]> {
+    return this.userRepository.findBy({ id });
   }
 
   async loginUser(userLoginDto: UserLoginDto): Promise<object> {

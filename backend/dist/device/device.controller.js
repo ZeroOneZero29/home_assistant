@@ -24,9 +24,14 @@ let DeviceController = class DeviceController {
         return this.deviceService.getInfoDevice();
     }
     async getInfoDeviceId(deviceDto) {
-        console.log(deviceDto.deviceID);
-        const id = deviceDto.deviceID;
-        return this.deviceService.getInfoDeviceById(id);
+        try {
+            console.log(deviceDto.deviceID);
+            const id = deviceDto.deviceID;
+            return this.deviceService.getInfoDeviceById(id);
+        }
+        catch (err) {
+            throw new common_1.InternalServerErrorException(err);
+        }
     }
     async changeStateDevice(deviceDto) {
         const id = deviceDto.deviceID;
