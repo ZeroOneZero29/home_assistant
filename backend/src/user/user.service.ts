@@ -1,13 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserRegDto, UserLoginDto } from './user.dto';
+import { AuthService } from 'src/auth/auth.service';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { UserRegDto, UserLoginDto, UserUpdateDto } from './user.dto';
 import { User } from 'src/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-
+type Token = {
+  accessToken: string;
+  refreshToken: string;
+};
 @Injectable()
 export class UserService {
   constructor(
+    @Inject(forwardRef(() => AuthService))
+    private authService: AuthService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
@@ -38,37 +44,55 @@ export class UserService {
     return this.userRepository.findBy({ id });
   }
 
-  async loginUser(userLoginDto: UserLoginDto): Promise<object> {
-    const { email, password } = userLoginDto;
-    const user = await this.userRepository.findOneBy({ email });
-    if (!user) {
-      throw new NotFoundException(`Пользователь с данным ${email} не найден!`);
+  async loginUser(userLoginDto: UserLoginDto): Promise<object | undefined> {
+    try {
+      const { email, password } = userLoginDto;
+      console.log(email);
+      const user = await this.userRepository.findOneBy({ email });
+      if (!user) {
+        throw new NotFoundException(`Пользователь с данным ${email} не найден!`);
+      }
+      const passwordVerified = await bcrypt.compare(password, user.password);
+      if (!passwordVerified) {
+        throw new NotFoundException(`Пароль для пользователя ${email} не верный!`);
+      }
+      const jwtToken = await this.authService.genTokens(userLoginDto);
+      const { accessToken, refreshToken } = jwtToken;
+      user.refreshToken = refreshToken;
+      await this.userRepository.save(user);
+      console.log(accessToken);
+      const requreData = {
+        email,
+        name: user.name,
+        accessToken,
+        refreshToken,
+      };
+      return requreData;
+    } catch (error) {
+      throw new NotFoundException(error);
     }
-    const passwordVerified = await bcrypt.compare(password, user.password);
-    if (!passwordVerified) {
-      throw new NotFoundException(`Пароль для пользователя ${email} не верный!`);
-    }
-    const requreData = { name: user.name, refreshToken: user.refreshToken };
-    return requreData;
   }
 
-  async updateUser(userLoginDto: UserLoginDto): Promise<User> {
-    const { email } = userLoginDto;
+  async updateUser(userUpdateDto: UserUpdateDto): Promise<Token> {
+    const { email } = userUpdateDto;
     const user = await this.userRepository.findOneBy({ email });
     if (!user) {
       throw new NotFoundException(`Пользователь с данным ${email} не найден`);
     }
-    user.oauthToken = 'dada';
-
+    const jwtToken = await this.authService.genTokens(userUpdateDto);
+    const { accessToken, refreshToken } = jwtToken;
+    user.refreshToken = refreshToken;
     await this.userRepository.save(user);
-    return user;
+    console.log(jwtToken);
+
+    return jwtToken;
   }
 
   async getUser(): Promise<User[]> {
     return this.userRepository.find();
   }
 
-  async getOneUser(loginUser: UserRegDto): Promise<any> {
+  async getOneUser(loginUser: UserLoginDto): Promise<any> {
     const { email, password } = loginUser;
     //console.log(email);
     const user = await this.userRepository.findOneBy({ email });

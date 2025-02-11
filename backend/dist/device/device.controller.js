@@ -16,6 +16,7 @@ exports.DeviceController = void 0;
 const common_1 = require("@nestjs/common");
 const device_dto_1 = require("./device.dto");
 const device_service_1 = require("./device.service");
+const accessToken_guard_1 = require("../guards/accessToken.guard");
 let DeviceController = class DeviceController {
     constructor(deviceService) {
         this.deviceService = deviceService;
@@ -40,12 +41,14 @@ let DeviceController = class DeviceController {
 };
 exports.DeviceController = DeviceController;
 __decorate([
+    (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
     (0, common_1.Get)('/info'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], DeviceController.prototype, "getInfoAllDevice", null);
 __decorate([
+    (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
     (0, common_1.Get)('/info_device'),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
@@ -53,6 +56,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], DeviceController.prototype, "getInfoDeviceId", null);
 __decorate([
+    (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
     (0, common_1.Post)('/action'),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),

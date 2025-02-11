@@ -9,26 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JwtStrategy = void 0;
+exports.RefreshTokenStrategy = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const passport_jwt_1 = require("passport-jwt");
 const auth_constants_1 = require("../auth.constants");
-let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
+let RefreshTokenStrategy = class RefreshTokenStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt-refresh') {
     constructor() {
         super({
-            secretOrKey: auth_constants_1.jwtConstants.secretAccess,
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
+            secretOrKey: auth_constants_1.jwtConstants.secretRefresh,
+            passReqToCallback: true,
         });
     }
-    async validate(payload) {
-        return payload;
+    async validate(req, payload) {
+        const refreshToken = req.get('Authorization')?.replace('Bearer', '').trim();
+        return { ...payload, refreshToken };
     }
 };
-exports.JwtStrategy = JwtStrategy;
-exports.JwtStrategy = JwtStrategy = __decorate([
+exports.RefreshTokenStrategy = RefreshTokenStrategy;
+exports.RefreshTokenStrategy = RefreshTokenStrategy = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [])
-], JwtStrategy);
-//# sourceMappingURL=accessToken.strategy.js.map
+], RefreshTokenStrategy);
+//# sourceMappingURL=refresh.token.strategy.js.map

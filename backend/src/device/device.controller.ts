@@ -6,20 +6,23 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { DeviceDto } from './device.dto';
 import { DeviceService } from './device.service';
 import { NotFoundError } from 'rxjs';
+import { AccessTokenGuard } from 'src/guards/accessToken.guard';
 
 @Controller('device')
 export class DeviceController {
   constructor(private deviceService: DeviceService) {}
 
+  @UseGuards(AccessTokenGuard)
   @Get('/info')
   public async getInfoAllDevice() {
     return this.deviceService.getInfoDevice();
   }
-
+  @UseGuards(AccessTokenGuard)
   @Get('/info_device')
   public async getInfoDeviceId(@Query() deviceDto: DeviceDto) {
     try {
@@ -30,7 +33,7 @@ export class DeviceController {
       throw new InternalServerErrorException(err);
     }
   }
-
+  @UseGuards(AccessTokenGuard)
   @Post('/action')
   public async changeStateDevice(@Query() deviceDto: DeviceDto) {
     const id = deviceDto.deviceID;

@@ -8,26 +8,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const user_service_1 = require("../user/user.service");
+const config_1 = require("@nestjs/config");
+const jwt_1 = require("@nestjs/jwt");
 let AuthService = class AuthService {
-    constructor(userService) {
-        this.userService = userService;
+    constructor(jwtService, configService) {
+        this.jwtService = jwtService;
+        this.configService = configService;
     }
-    async test() {
-        const data = this.userService.getUser();
-        return data;
+    async genTokens(user) {
+        console.log(user);
+        const payload = { sub: user.email };
+        console.log(payload);
+        const accessToken = this.jwtService.sign(payload, {
+            secret: this.configService.get('secret_jwt'),
+            expiresIn: '3d',
+        });
+        const refreshToken = this.jwtService.sign(payload, {
+            secret: this.configService.get('secret_jwt_refresh'),
+            expiresIn: '30d',
+        });
+        return { accessToken, refreshToken };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)((0, common_1.forwardRef)(() => user_service_1.UserService))),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        config_1.ConfigService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

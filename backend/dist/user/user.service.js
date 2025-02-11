@@ -13,13 +13,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
+const auth_service_1 = require("../auth/auth.service");
 const common_1 = require("@nestjs/common");
 const user_entity_1 = require("../entity/user.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const bcrypt = require("bcrypt");
 let UserService = class UserService {
-    constructor(userRepository) {
+    constructor(authService, userRepository) {
+        this.authService = authService;
         this.userRepository = userRepository;
     }
     async createUser(userRegDto) {
@@ -43,27 +45,46 @@ let UserService = class UserService {
         return this.userRepository.findBy({ id });
     }
     async loginUser(userLoginDto) {
-        const { email, password } = userLoginDto;
-        const user = await this.userRepository.findOneBy({ email });
-        if (!user) {
-            throw new common_1.NotFoundException(`Пользователь с данным ${email} не найден!`);
+        try {
+            const { email, password } = userLoginDto;
+            console.log(email);
+            const user = await this.userRepository.findOneBy({ email });
+            if (!user) {
+                throw new common_1.NotFoundException(`Пользователь с данным ${email} не найден!`);
+            }
+            const passwordVerified = await bcrypt.compare(password, user.password);
+            if (!passwordVerified) {
+                throw new common_1.NotFoundException(`Пароль для пользователя ${email} не верный!`);
+            }
+            const jwtToken = await this.authService.genTokens(userLoginDto);
+            const { accessToken, refreshToken } = jwtToken;
+            user.refreshToken = refreshToken;
+            await this.userRepository.save(user);
+            console.log(accessToken);
+            const requreData = {
+                email,
+                name: user.name,
+                accessToken,
+                refreshToken,
+            };
+            return requreData;
         }
-        const passwordVerified = await bcrypt.compare(password, user.password);
-        if (!passwordVerified) {
-            throw new common_1.NotFoundException(`Пароль для пользователя ${email} не верный!`);
+        catch (error) {
+            throw new common_1.NotFoundException(error);
         }
-        const requreData = { name: user.name, refreshToken: user.refreshToken };
-        return requreData;
     }
-    async updateUser(userLoginDto) {
-        const { email } = userLoginDto;
+    async updateUser(userUpdateDto) {
+        const { email } = userUpdateDto;
         const user = await this.userRepository.findOneBy({ email });
         if (!user) {
             throw new common_1.NotFoundException(`Пользователь с данным ${email} не найден`);
         }
-        user.oauthToken = 'dada';
+        const jwtToken = await this.authService.genTokens(userUpdateDto);
+        const { accessToken, refreshToken } = jwtToken;
+        user.refreshToken = refreshToken;
         await this.userRepository.save(user);
-        return user;
+        console.log(jwtToken);
+        return jwtToken;
     }
     async getUser() {
         return this.userRepository.find();
@@ -84,7 +105,9 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, (0, common_1.Inject)((0, common_1.forwardRef)(() => auth_service_1.AuthService))),
+    __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        typeorm_2.Repository])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

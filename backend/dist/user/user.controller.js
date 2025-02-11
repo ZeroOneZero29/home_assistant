@@ -16,6 +16,7 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_dto_1 = require("./user.dto");
 const user_service_1 = require("./user.service");
+const accessToken_guard_1 = require("../guards/accessToken.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -28,9 +29,19 @@ let UserController = class UserController {
         console.log(userLoginDto);
         return this.userService.loginUser(userLoginDto);
     }
-    async userUpade(userLoginDto) {
-        console.log(userLoginDto);
-        return this.userService.updateUser(userLoginDto);
+    async userUpade(userUpdateDto, response) {
+        const token = await this.userService.updateUser(userUpdateDto);
+        const acessToken = token.accessToken;
+        const refreshToken = token.refreshToken;
+        response.cookie('access', acessToken, {
+            httpOnly: true,
+        });
+        response.cookie('refresh', refreshToken);
+        response.header('Set-Cookie', `access=${acessToken}; HttpOnly; Secure; SameSite=None; Max-Age=60000; Path=/;`);
+    }
+    readCookie(request) {
+        const cookie = request.cookies['access'];
+        return `Read cookie: ${cookie}`;
     }
     async getUser() {
         return this.userService.getUser();
@@ -57,11 +68,20 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/update'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.UserLoginDto]),
+    __metadata("design:paramtypes", [user_dto_1.UserUpdateDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "userUpade", null);
 __decorate([
+    (0, common_1.Get)('/read-cookie'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "readCookie", null);
+__decorate([
+    (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
     (0, common_1.Get)('/all'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -71,7 +91,7 @@ __decorate([
     (0, common_1.Get)('/one'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.UserRegDto]),
+    __metadata("design:paramtypes", [user_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getOneUser", null);
 exports.UserController = UserController = __decorate([

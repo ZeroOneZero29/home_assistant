@@ -7,3 +7,6 @@ export declare class UserLoginDto {
     email: string;
     password: string;
 }
+export declare class UserUpdateDto {
+    email: string;
+}

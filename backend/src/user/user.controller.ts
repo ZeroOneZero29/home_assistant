@@ -1,6 +1,8 @@
-import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
-import { UserRegDto, UserLoginDto } from './user.dto';
+import { Body, Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { UserRegDto, UserLoginDto, UserUpdateDto } from './user.dto';
 import { UserService } from './user.service';
+import { Response, Request } from 'express';
+import { AccessTokenGuard } from 'src/guards/accessToken.guard';
 
 @Controller('user')
 export class UserController {
@@ -19,18 +21,36 @@ export class UserController {
   }
 
   @Post('/update')
-  public async userUpade(@Body() userLoginDto: UserLoginDto) {
-    console.log(userLoginDto);
-    return this.userService.updateUser(userLoginDto);
+  public async userUpade(
+    @Body() userUpdateDto: UserUpdateDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const token = await this.userService.updateUser(userUpdateDto);
+    const acessToken = token.accessToken;
+    const refreshToken = token.refreshToken;
+    response.cookie('access', acessToken, {
+      httpOnly: true,
+    });
+    response.cookie('refresh', refreshToken);
+    response.header(
+      'Set-Cookie',
+      `access=${acessToken}; HttpOnly; Secure; SameSite=None; Max-Age=60000; Path=/;`,
+    );
   }
 
+  @Get('/read-cookie')
+  readCookie(@Req() request: Request) {
+    const cookie = request.cookies['access'];
+    return `Read cookie: ${cookie}`;
+  }
+  @UseGuards(AccessTokenGuard)
   @Get('/all')
   public async getUser() {
     return this.userService.getUser();
   }
 
   @Get('/one')
-  public async getOneUser(@Body() loginUserDto: UserRegDto) {
+  public async getOneUser(@Body() loginUserDto: UserLoginDto) {
     return this.userService.getOneUser(loginUserDto);
   }
 }
