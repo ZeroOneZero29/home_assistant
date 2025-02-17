@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserUpdateDto = exports.UserLoginDto = exports.UserRegDto = void 0;
+exports.UserTokenDto = exports.CreateTokenDto = exports.UserLoginDto = exports.UserRegDto = void 0;
 const class_validator_1 = require("class-validator");
 class UserRegDto {
 }
@@ -42,12 +42,27 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UserLoginDto.prototype, "password", void 0);
-class UserUpdateDto {
+class CreateTokenDto {
 }
-exports.UserUpdateDto = UserUpdateDto;
+exports.CreateTokenDto = CreateTokenDto;
 __decorate([
     (0, class_validator_1.IsEmail)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], UserUpdateDto.prototype, "email", void 0);
+], CreateTokenDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateTokenDto.prototype, "id", void 0);
+class UserTokenDto {
+}
+exports.UserTokenDto = UserTokenDto;
+__decorate([
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], UserTokenDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UserTokenDto.prototype, "refreshToken", void 0);
 //# sourceMappingURL=user.dto.js.map

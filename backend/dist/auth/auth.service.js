@@ -13,14 +13,75 @@ exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
+const bcrypt = require("bcrypt");
+const user_service_1 = require("../user/user.service");
 let AuthService = class AuthService {
-    constructor(jwtService, configService) {
+    constructor(userService, jwtService, configService) {
+        this.userService = userService;
         this.jwtService = jwtService;
         this.configService = configService;
     }
+    async logUp(userRegDto) {
+        const { email } = userRegDto;
+        const checkedUser = await this.userService.findByEmail(email);
+        if (checkedUser) {
+            throw new common_1.NotFoundException(`Пользователь ${email} уже существует `);
+        }
+        const salt = await bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(userRegDto.password, salt);
+        const userToDB = { ...userRegDto, password: hashPassword };
+        return await this.userService.createUser(userToDB);
+    }
+    async logIn(userLoginDto) {
+        const { password, email } = userLoginDto;
+        const checkedUser = await this.userService.findByEmail(email);
+        if (!checkedUser) {
+            throw new common_1.NotFoundException(`Пользователь с данным ${email} не найден!`);
+        }
+        const passwordVerified = await bcrypt.compare(password, checkedUser.password);
+        if (!passwordVerified) {
+            throw new common_1.NotFoundException(`Пароль для пользователя ${email} не верный!`);
+        }
+        const payloadTokens = {
+            email: checkedUser.email,
+            id: checkedUser.id,
+        };
+        const tokens = await this.genTokens(payloadTokens);
+        const tokenSalt = await bcrypt.genSalt();
+        const refreshTokenEncrypt = await bcrypt.hash(tokens.refreshToken, tokenSalt);
+        const user = await this.userService.loginUser({
+            email,
+            refreshToken: refreshTokenEncrypt,
+        });
+        console.log(tokens);
+        return tokens;
+    }
+    async updateRefreshTokens(userToken) {
+        const user = await this.userService.findByEmail(userToken.email);
+        if (!user) {
+            throw new common_1.ForbiddenException('Доступ запрещен');
+        }
+        const refreshTokenVerify = await bcrypt.compare(userToken.refreshToken, user.refreshToken);
+        if (!refreshTokenVerify) {
+            throw new common_1.ForbiddenException('Доступ запрещен');
+        }
+        const payloadTokens = {
+            email: user.email,
+            id: user.id,
+        };
+        const tokens = await this.genTokens(payloadTokens);
+        const salt = await bcrypt.genSalt();
+        const tokenEncrypt = await bcrypt.hash(tokens.refreshToken, salt);
+        const updateTokens = {
+            email: user.email,
+            refreshToken: tokenEncrypt,
+        };
+        await this.userService.updateTokens(updateTokens);
+        return tokens;
+    }
     async genTokens(user) {
-        console.log(user);
-        const payload = { sub: user.email };
+        console.log();
+        const payload = { sub: user.email, id: user.id };
         console.log(payload);
         const accessToken = this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt'),
@@ -36,7 +97,8 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService,
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        jwt_1.JwtService,
         config_1.ConfigService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

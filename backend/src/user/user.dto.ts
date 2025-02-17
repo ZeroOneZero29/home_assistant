@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
 
 export class UserRegDto {
   @IsString()
@@ -24,8 +24,19 @@ export class UserLoginDto {
   password: string;
 }
 
-export class UserUpdateDto {
+export class CreateTokenDto {
   @IsEmail()
   @IsString()
   email: string;
+
+  @IsNumber()
+  id: number;
+}
+
+export class UserTokenDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  refreshToken: string;
 }

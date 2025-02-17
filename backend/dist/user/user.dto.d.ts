@@ -7,6 +7,11 @@ export declare class UserLoginDto {
     email: string;
     password: string;
 }
-export declare class UserUpdateDto {
+export declare class CreateTokenDto {
     email: string;
+    id: number;
+}
+export declare class UserTokenDto {
+    email: string;
+    refreshToken: string;
 }

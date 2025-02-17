@@ -17,12 +17,31 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const user_dto_1 = require("../user/user.dto");
 const accessToken_guard_1 = require("../guards/accessToken.guard");
+const refreshToken_guard_1 = require("../guards/refreshToken.guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
     async test(userLoginDto) {
         console.log(userLoginDto);
+    }
+    async singUp(userRegDto) {
+        return this.authService.logUp(userRegDto);
+        console.log(userRegDto);
+    }
+    async singIn(userLoginDto) {
+        console.log(userLoginDto);
+        return this.authService.logIn(userLoginDto);
+    }
+    async refreshTokens(request, body) {
+        const [type, token] = request.headers.authorization?.split(' ');
+        console.log(token);
+        const refreshTokenz = type === 'Bearer' ? token : undefined;
+        const dateToken = {
+            email: body.email,
+            refreshToken: refreshTokenz,
+        };
+        return await this.authService.updateRefreshTokens(dateToken);
     }
 };
 exports.AuthController = AuthController;
@@ -34,6 +53,29 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "test", null);
+__decorate([
+    (0, common_1.Post)('singup'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.UserRegDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "singUp", null);
+__decorate([
+    (0, common_1.Post)('singin'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.UserLoginDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "singIn", null);
+__decorate([
+    (0, common_1.UseGuards)(refreshToken_guard_1.RefreshTokenGuard),
+    (0, common_1.Get)('/refresh'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refreshTokens", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

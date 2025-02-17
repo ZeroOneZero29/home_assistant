@@ -5,14 +5,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from 'src/user/user.module';
 import { AuthService } from './auth.service';
-import { UserService } from 'src/user/user.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategy/access.token.strategy';
 import { RefreshTokenStrategy } from './strategy/refresh.token.strategy';
+import { UserService } from 'src/user/user.service';
 
 const configService = new ConfigService();
 @Module({
   imports: [
+    UserModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({ global: true }),
     JwtModule.registerAsync({
@@ -29,6 +30,6 @@ const configService = new ConfigService();
   ],
   controllers: [AuthController],
   providers: [JwtStrategy, RefreshTokenStrategy, AuthService, PassportModule],
-  exports: [JwtModule, AuthModule, AuthService, PassportModule],
+  exports: [],
 })
 export class AuthModule {}

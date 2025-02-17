@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { UserRegDto, UserLoginDto, UserUpdateDto } from './user.dto';
+import { UserRegDto, UserLoginDto, UserTokenDto, CreateTokenDto } from './user.dto';
 import { UserService } from './user.service';
 import { Response, Request } from 'express';
 import { AccessTokenGuard } from 'src/guards/accessToken.guard';
@@ -15,27 +15,27 @@ export class UserController {
   }
 
   @Post('/login')
-  public async loginUser(@Body() userLoginDto: UserLoginDto) {
-    console.log(userLoginDto);
-    return this.userService.loginUser(userLoginDto);
+  public async loginUser(@Body() userTokenDto: UserTokenDto) {
+    console.log(userTokenDto);
+    return this.userService.loginUser(userTokenDto);
   }
 
   @Post('/update')
   public async userUpade(
-    @Body() userUpdateDto: UserUpdateDto,
+    @Body() userUpdateDto: CreateTokenDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const token = await this.userService.updateUser(userUpdateDto);
-    const acessToken = token.accessToken;
-    const refreshToken = token.refreshToken;
-    response.cookie('access', acessToken, {
-      httpOnly: true,
-    });
-    response.cookie('refresh', refreshToken);
-    response.header(
-      'Set-Cookie',
-      `access=${acessToken}; HttpOnly; Secure; SameSite=None; Max-Age=60000; Path=/;`,
-    );
+    // const token = await this.userService.updateUser(userUpdateDto);
+    //const acessToken = token.accessToken;
+    //const refreshToken = token.refreshToken;
+    //response.cookie('access', acessToken, {
+    //  httpOnly: true,
+    //});
+    //response.cookie('refresh', refreshToken);
+    //response.header(
+    //  'Set-Cookie',
+    //  `access=${acessToken}; HttpOnly; Secure; SameSite=None; Max-Age=60000; Path=/;`,
+    //);
   }
 
   @Get('/read-cookie')
