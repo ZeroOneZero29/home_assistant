@@ -1,0 +1,12 @@
+@use './styles/variables.module.scss';
+
+.container_block {
+  max-width: 678px;
+  margin: 0 auto;
+}
+.line {
+  border: none;
+  border-top: 2px variables.$gold-color solid;
+  margin-top: 90px;
+  width: 100%;
+}
