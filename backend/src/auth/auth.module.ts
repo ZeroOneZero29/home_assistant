@@ -16,17 +16,17 @@ const configService = new ConfigService();
     UserModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({ global: true }),
-    JwtModule.registerAsync({
-      global: true,
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get('SECRET_KEY'),
-        signOptions: {
-          expiresIn: '1d',
-        },
-      }),
-    }),
+    //JwtModule.registerAsync({
+    //  global: true,
+    //  imports: [ConfigModule],
+    //  inject: [ConfigService],
+    //  useFactory: (configService: ConfigService) => ({
+    //    secret: configService.get('SECRET_KEY'),
+    //    signOptions: {
+    //      expiresIn: '1d',
+    //    },
+    //  }),
+    //}),
   ],
   controllers: [AuthController],
   providers: [JwtStrategy, RefreshTokenStrategy, AuthService, PassportModule],

@@ -18,30 +18,28 @@ const auth_service_1 = require("./auth.service");
 const user_dto_1 = require("../user/user.dto");
 const accessToken_guard_1 = require("../guards/accessToken.guard");
 const refreshToken_guard_1 = require("../guards/refreshToken.guard");
+const refresh_token_strategy_1 = require("./strategy/refresh.token.strategy");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, refreshTokenStrategy) {
         this.authService = authService;
+        this.refreshTokenStrategy = refreshTokenStrategy;
     }
     async test(userLoginDto) {
         console.log(userLoginDto);
     }
     async singUp(userRegDto) {
-        return this.authService.logUp(userRegDto);
         console.log(userRegDto);
+        return this.authService.logUp(userRegDto);
     }
     async singIn(userLoginDto) {
         console.log(userLoginDto);
         return this.authService.logIn(userLoginDto);
     }
-    async refreshTokens(request, body) {
+    async getYandexToken(oauth) { }
+    async refreshTokensAccess(request) {
         const [type, token] = request.headers.authorization?.split(' ');
-        console.log(token);
-        const refreshTokenz = type === 'Bearer' ? token : undefined;
-        const dateToken = {
-            email: body.email,
-            refreshToken: refreshTokenz,
-        };
-        return await this.authService.updateRefreshTokens(dateToken);
+        const refreshTokens = type === 'Bearer' ? token : undefined;
+        return await this.authService.updateAccessTokens(refreshTokens);
     }
 };
 exports.AuthController = AuthController;
@@ -54,30 +52,37 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "test", null);
 __decorate([
-    (0, common_1.Post)('singup'),
+    (0, common_1.Post)('reg'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_dto_1.UserRegDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singUp", null);
 __decorate([
-    (0, common_1.Post)('singin'),
+    (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singIn", null);
 __decorate([
-    (0, common_1.UseGuards)(refreshToken_guard_1.RefreshTokenGuard),
-    (0, common_1.Get)('/refresh'),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.Get)('oauth'),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], AuthController.prototype, "refreshTokens", null);
+], AuthController.prototype, "getYandexToken", null);
+__decorate([
+    (0, common_1.UseGuards)(refreshToken_guard_1.RefreshTokenGuard),
+    (0, common_1.Get)('/refreshs'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refreshTokensAccess", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        refresh_token_strategy_1.RefreshTokenStrategy])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { jwtConstants } from '../auth.constants';
 import { Request } from 'express';
 import { UserService } from 'src/user/user.service';
+import { UserLoginDto } from 'src/user/user.dto';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
@@ -18,4 +19,7 @@ export class RefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refres
     const refreshToken = req.get('Authorization')?.replace('Bearer', '').trim();
     return { ...payload, refreshToken };
   }
+  //async validate(payload: UserLoginDto) {
+  //  return payload;
+  //}
 }

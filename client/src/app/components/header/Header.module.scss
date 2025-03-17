@@ -1,0 +1,13 @@
+@use '../../styles/variables.module.scss';
+.line {
+  border: none;
+  border-top: 2px variables.$gold-color solid;
+  margin-top: 90px;
+  width: 100%;
+  @media (max-width: 1400px) {
+    margin-top: 50px;
+  }
+  @media (max-width: 450px) {
+    margin-top: 30px;
+  }
+}

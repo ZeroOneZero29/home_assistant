@@ -30,9 +30,6 @@ let UserService = class UserService {
         const user = this.userRepository.create(userToDB);
         return this.userRepository.save(user);
     }
-    async findUserById(id) {
-        return this.userRepository.findBy({ id });
-    }
     async loginUser(userTokenDto) {
         const { email, refreshToken } = userTokenDto;
         console.log(refreshToken);
@@ -40,10 +37,10 @@ let UserService = class UserService {
         const userUpadeToken = await this.userRepository.save({ ...user, refreshToken: refreshToken });
         return userUpadeToken;
     }
-    async updateTokens(userTokenDto) {
+    async updateTokensRefresh(userTokenDto) {
         const { email, refreshToken } = userTokenDto;
-        console.log(refreshToken);
         const user = await this.userRepository.findOneBy({ email });
+        console.log(refreshToken);
         const userUpadeToken = await this.userRepository.save({ ...user, refreshToken: refreshToken });
         return userUpadeToken;
     }
