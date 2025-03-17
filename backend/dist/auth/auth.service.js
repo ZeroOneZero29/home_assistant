@@ -51,43 +51,34 @@ let AuthService = class AuthService {
         const refreshTokenEncrypt = await bcrypt.hash(tokens.refreshToken, tokenSalt);
         const user = await this.userService.loginUser({
             email,
-            refreshToken: refreshTokenEncrypt,
+            refreshToken: tokens.refreshToken,
         });
-        console.log(tokens);
         return tokens;
     }
-    async updateRefreshTokens(userToken) {
-        const user = await this.userService.findByEmail(userToken.email);
-        if (!user) {
-            throw new common_1.ForbiddenException('Доступ запрещен');
-        }
-        const refreshTokenVerify = await bcrypt.compare(userToken.refreshToken, user.refreshToken);
-        if (!refreshTokenVerify) {
-            throw new common_1.ForbiddenException('Доступ запрещен');
-        }
-        const payloadTokens = {
-            email: user.email,
-            id: user.id,
+    async updateAccessTokens(refreshToken) {
+        const infoInToken = this.jwtService.decode(refreshToken);
+        const payload = {
+            sub: infoInToken.sub,
+            id: infoInToken.id,
         };
-        const tokens = await this.genTokens(payloadTokens);
-        const salt = await bcrypt.genSalt();
-        const tokenEncrypt = await bcrypt.hash(tokens.refreshToken, salt);
-        const updateTokens = {
-            email: user.email,
-            refreshToken: tokenEncrypt,
-        };
-        await this.userService.updateTokens(updateTokens);
-        return tokens;
+        const tokenAcceess = await this.genTokensAcceess(payload);
+        return tokenAcceess;
     }
-    async genTokens(user) {
-        console.log();
-        const payload = { sub: user.email, id: user.id };
-        console.log(payload);
+    async genTokensAcceess(userInfo) {
+        const payload = userInfo;
         const accessToken = this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt'),
-            expiresIn: '3d',
+            expiresIn: '1m',
         });
-        const refreshToken = this.jwtService.sign(payload, {
+        return { accessToken };
+    }
+    async genTokens(user) {
+        const payload = { sub: user.email, id: user.id };
+        const accessToken = await this.jwtService.sign(payload, {
+            secret: this.configService.get('secret_jwt'),
+            expiresIn: '1m',
+        });
+        const refreshToken = await this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt_refresh'),
             expiresIn: '30d',
         });

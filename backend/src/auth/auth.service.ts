@@ -4,9 +4,13 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateTokenDto, UserLoginDto, UserRegDto, UserTokenDto } from 'src/user/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserService } from 'src/user/user.service';
+import { RefreshTokenStrategy } from './strategy/refresh.token.strategy';
 interface Tokens {
   accessToken: string;
   refreshToken: string;
+}
+interface TokensAcceess {
+  accessToken: string;
 }
 @Injectable()
 export class AuthService {
@@ -52,51 +56,71 @@ export class AuthService {
     const refreshTokenEncrypt = await bcrypt.hash(tokens.refreshToken, tokenSalt);
     const user = await this.userService.loginUser({
       email,
-      refreshToken: refreshTokenEncrypt,
+      refreshToken: tokens.refreshToken,
     });
-    console.log(tokens);
+
     return tokens;
   }
 
-  async updateRefreshTokens(userToken: UserTokenDto) {
-    const user = await this.userService.findByEmail(userToken.email);
-    if (!user) {
-      throw new ForbiddenException('Доступ запрещен');
-    }
-    const refreshTokenVerify = await bcrypt.compare(userToken.refreshToken, user.refreshToken);
-    if (!refreshTokenVerify) {
-      throw new ForbiddenException('Доступ запрещен');
-    }
-    const payloadTokens = {
-      email: user.email,
-      id: user.id,
+  async updateAccessTokens(refreshToken: string): Promise<any> {
+    const infoInToken = this.jwtService.decode(refreshToken);
+    const payload = {
+      sub: infoInToken.sub,
+      id: infoInToken.id,
     };
-    const tokens = await this.genTokens(payloadTokens);
-    const salt = await bcrypt.genSalt();
-    const tokenEncrypt = await bcrypt.hash(tokens.refreshToken, salt);
-    const updateTokens = {
-      email: user.email,
-      refreshToken: tokenEncrypt,
-    };
-    await this.userService.updateTokens(updateTokens);
-    return tokens;
+    const tokenAcceess = await this.genTokensAcceess(payload);
+    return tokenAcceess;
+  }
+
+  async genTokensAcceess(userInfo: object): Promise<TokensAcceess> {
+    const payload: object = userInfo;
+    const accessToken: string = this.jwtService.sign(payload, {
+      secret: this.configService.get('secret_jwt'),
+      expiresIn: '1m',
+    });
+    return { accessToken };
   }
 
   async genTokens(user: CreateTokenDto): Promise<Tokens> {
-    console.log();
-
     const payload: object = { sub: user.email, id: user.id };
-    console.log(payload);
 
-    const accessToken: string = this.jwtService.sign(payload, {
+    const accessToken: string = await this.jwtService.sign(payload, {
       secret: this.configService.get('secret_jwt'),
-      expiresIn: '3d',
+      expiresIn: '1m',
     });
 
-    const refreshToken: string = this.jwtService.sign(payload, {
+    const refreshToken: string = await this.jwtService.sign(payload, {
       secret: this.configService.get('secret_jwt_refresh'),
       expiresIn: '30d',
     });
     return { accessToken, refreshToken };
   }
+
+  //async updateRefreshTokens(userToken: UserTokenDto) {
+  //  const user = await this.userService.findByEmail(userToken.email);
+  //  if (!user) {
+  //    throw new ForbiddenException('Доступ запрещен');
+  //  }
+  //  const { refreshToken } = userToken;
+  //  const refreshTokenVerify = await bcrypt.compare(refreshToken, user.refreshToken);
+  //  console.log(refreshTokenVerify);
+  //  if (!refreshTokenVerify) {
+  //    throw new ForbiddenException('Доступ запрещен');
+  //  }
+  //  const payloadTokens = {
+  //    email: user.email,
+  //    id: user.id,
+  //  };
+  //  const tokens = await this.genTokens(payloadTokens);
+  //  console.log(tokens);
+  //  const saltToken = await bcrypt.genSalt();
+  //  const tokenEncrypt = await bcrypt.hash(tokens.refreshToken, saltToken);
+  //  console.log(tokenEncrypt);
+  //  const updateTokens = {
+  //    email: user.email,
+  //    refreshToken: tokenEncrypt,
+  //  };
+  //  await this.userService.updateTokensRefresh(updateTokens);
+  //  return tokens;
+  //}
 }

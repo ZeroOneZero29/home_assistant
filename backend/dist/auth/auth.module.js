@@ -26,17 +26,6 @@ exports.AuthModule = AuthModule = __decorate([
             user_module_1.UserModule,
             passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
             jwt_1.JwtModule.register({ global: true }),
-            jwt_1.JwtModule.registerAsync({
-                global: true,
-                imports: [config_1.ConfigModule],
-                inject: [config_1.ConfigService],
-                useFactory: (configService) => ({
-                    secret: configService.get('SECRET_KEY'),
-                    signOptions: {
-                        expiresIn: '1d',
-                    },
-                }),
-            }),
         ],
         controllers: [auth_controller_1.AuthController],
         providers: [access_token_strategy_1.JwtStrategy, refresh_token_strategy_1.RefreshTokenStrategy, auth_service_1.AuthService, passport_1.PassportModule],

@@ -12,6 +12,7 @@ import { DeviceDto } from './device.dto';
 import { DeviceService } from './device.service';
 import { NotFoundError } from 'rxjs';
 import { AccessTokenGuard } from 'src/guards/accessToken.guard';
+import { RefreshTokenGuard } from 'src/guards/refreshToken.guard';
 
 @Controller('device')
 export class DeviceController {

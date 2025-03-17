@@ -4,7 +4,9 @@ import { User } from 'src/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Not, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-
+interface TokensAcceess {
+  accessToken: string;
+}
 @Injectable()
 export class UserService {
   constructor(
@@ -21,9 +23,9 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async findUserById(id: number): Promise<User[]> {
-    return this.userRepository.findBy({ id });
-  }
+  //async findUserById(id: number): Promise<User[]> {
+  //  return this.userRepository.findBy({ id });
+  //}
 
   async loginUser(userTokenDto: UserTokenDto): Promise<any> {
     const { email, refreshToken } = userTokenDto;
@@ -33,21 +35,25 @@ export class UserService {
     return userUpadeToken;
   }
 
-  async updateTokens(userTokenDto: UserTokenDto): Promise<any> {
+  async updateTokensRefresh(userTokenDto: UserTokenDto): Promise<any> {
     const { email, refreshToken } = userTokenDto;
-    console.log(refreshToken);
     const user = await this.userRepository.findOneBy({ email });
+    console.log(refreshToken);
     const userUpadeToken = await this.userRepository.save({ ...user, refreshToken: refreshToken });
     return userUpadeToken;
   }
 
+  //async updateAccessToken(userToken: string): Promise<User | null> {
+  //  const refreshToken = userToken;
+  //  const user = await this.userRepository.findOneBy({ refreshToken });
+  //  return user;
+  //}
   async getUser(): Promise<User[]> {
     return this.userRepository.find();
   }
 
   async getOneUser(loginUser: UserLoginDto): Promise<any> {
     const { email, password } = loginUser;
-    //console.log(email);
     const user = await this.userRepository.findOneBy({ email });
     if (!user) {
       throw new NotFoundException(`Пользователь с данным ${email} не найден`);
