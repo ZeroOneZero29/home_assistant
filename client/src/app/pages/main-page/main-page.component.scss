@@ -1,0 +1,80 @@
+
+.main-title {
+  font-size: 80px;
+  font-family: 'Lack Line';
+  color: var(--text-color);
+  text-align: center;
+}
+
+.link-button__container {
+  background-color: var(--background-section);
+  border-radius: 7px;
+  border: 1px rgba($color: #FFFFFF, $alpha: 0.5) solid;
+  margin-bottom: 10px;
+  padding: 45px 85px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.link-button__btn {
+  color: var(--text-color);
+  font-weight: 400;
+  font-family: 'Montserrat Alternates';
+  font-size: 40px;
+  text-align: center;
+}
+
+.link-button__btn_login {
+  padding: 8px 200px;
+  border: 3px var(--text-color) solid;
+  border-radius: 10px;
+}
+
+.link-button__btn_reg {
+  border-radius: 10px;
+  padding: 8px 0;
+  color: #383636;
+  background-color: var(--text-color);
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+
+.line {
+  border: 0;
+  padding-bottom: 30px;
+}
+.line_one {
+  border-top: 1px var(--primary-color) solid;
+}
+.line_two {
+  border-top: 2px var(--primary-color) solid;
+}
+.line_three {
+  border-top: 3px var(--primary-color) solid;
+}
+
+.line__container{
+  margin-top: auto
+}
+
+.line-header{
+  margin-top: 10vh;
+  border-top: 2px var(--primary-color) solid;
+}
+.content__container {
+  max-width: 670px;
+  margin: auto   auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;;
+}
+
+
+.test {
+  font-family: 'Montserrat';
+}
