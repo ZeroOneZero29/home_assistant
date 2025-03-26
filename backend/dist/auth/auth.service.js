@@ -36,11 +36,11 @@ let AuthService = class AuthService {
         const { password, email } = userLoginDto;
         const checkedUser = await this.userService.findByEmail(email);
         if (!checkedUser) {
-            throw new common_1.NotFoundException(`Пользователь с данным ${email} не найден!`);
+            throw new common_1.UnauthorizedException(`Пользователь с данным ${email} не найден!`);
         }
         const passwordVerified = await bcrypt.compare(password, checkedUser.password);
         if (!passwordVerified) {
-            throw new common_1.NotFoundException(`Пароль для пользователя ${email} не верный!`);
+            throw new common_1.UnauthorizedException(`Пароль для пользователя ${email} не верный!`);
         }
         const payloadTokens = {
             email: checkedUser.email,
@@ -68,7 +68,7 @@ let AuthService = class AuthService {
         const payload = userInfo;
         const accessToken = this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt'),
-            expiresIn: '1m',
+            expiresIn: '30s',
         });
         return { accessToken };
     }
@@ -76,7 +76,7 @@ let AuthService = class AuthService {
         const payload = { sub: user.email, id: user.id };
         const accessToken = await this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt'),
-            expiresIn: '1m',
+            expiresIn: '30s',
         });
         const refreshToken = await this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt_refresh'),

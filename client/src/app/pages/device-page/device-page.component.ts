@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { DeviceService } from '../../data/service/device.service';
 
 @Component({
   selector: 'app-device-page',
@@ -7,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './device-page.component.scss'
 })
 export class DevicePageComponent {
+  deviceService = inject(DeviceService)
 
+  ngOnInit() {
+    this.deviceService.getAllDevice().subscribe(res => {
+      console.log(res);
+    })
+  }
 }

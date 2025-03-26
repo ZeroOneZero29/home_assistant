@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { CreateTokenDto, UserLoginDto, UserRegDto, UserTokenDto } from 'src/user/user.dto';
@@ -41,11 +46,11 @@ export class AuthService {
     const { password, email } = userLoginDto;
     const checkedUser = await this.userService.findByEmail(email);
     if (!checkedUser) {
-      throw new NotFoundException(`Пользователь с данным ${email} не найден!`);
+      throw new UnauthorizedException(`Пользователь с данным ${email} не найден!`);
     }
     const passwordVerified = await bcrypt.compare(password, checkedUser.password);
     if (!passwordVerified) {
-      throw new NotFoundException(`Пароль для пользователя ${email} не верный!`);
+      throw new UnauthorizedException(`Пароль для пользователя ${email} не верный!`);
     }
     const payloadTokens = {
       email: checkedUser.email,
@@ -76,7 +81,7 @@ export class AuthService {
     const payload: object = userInfo;
     const accessToken: string = this.jwtService.sign(payload, {
       secret: this.configService.get('secret_jwt'),
-      expiresIn: '1m',
+      expiresIn: '30s',
     });
     return { accessToken };
   }
@@ -86,7 +91,7 @@ export class AuthService {
 
     const accessToken: string = await this.jwtService.sign(payload, {
       secret: this.configService.get('secret_jwt'),
-      expiresIn: '1m',
+      expiresIn: '30s',
     });
 
     const refreshToken: string = await this.jwtService.sign(payload, {

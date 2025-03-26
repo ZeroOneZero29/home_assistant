@@ -30,12 +30,12 @@ export class AuthController {
   @Post('reg')
   public async singUp(@Body() userRegDto: UserRegDto) {
     console.log(userRegDto);
+    console.log('dada');
     return this.authService.logUp(userRegDto);
   }
 
   @Post('login')
   public async singIn(@Body() userLoginDto: UserLoginDto): Promise<Tokens> {
-    console.log(userLoginDto);
     return this.authService.logIn(userLoginDto);
   }
 
@@ -43,7 +43,7 @@ export class AuthController {
   public async getYandexToken(@Query() oauth: string) {}
 
   @UseGuards(RefreshTokenGuard)
-  @Get('/refreshs')
+  @Get('/refresh')
   public async refreshTokensAccess(@Req() request: Request): Promise<TokensAcceess> {
     const [type, token]: any = request.headers.authorization?.split(' ');
     const refreshTokens = type === 'Bearer' ? token : undefined;

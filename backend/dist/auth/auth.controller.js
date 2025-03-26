@@ -29,10 +29,10 @@ let AuthController = class AuthController {
     }
     async singUp(userRegDto) {
         console.log(userRegDto);
+        console.log('dada');
         return this.authService.logUp(userRegDto);
     }
     async singIn(userLoginDto) {
-        console.log(userLoginDto);
         return this.authService.logIn(userLoginDto);
     }
     async getYandexToken(oauth) { }
@@ -74,7 +74,7 @@ __decorate([
 ], AuthController.prototype, "getYandexToken", null);
 __decorate([
     (0, common_1.UseGuards)(refreshToken_guard_1.RefreshTokenGuard),
-    (0, common_1.Get)('/refreshs'),
+    (0, common_1.Get)('/refresh'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

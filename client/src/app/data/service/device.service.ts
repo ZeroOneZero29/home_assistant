@@ -6,7 +6,7 @@ import { inject, Injectable } from '@angular/core';
 })
 export class DeviceService {
   http: HttpClient = inject(HttpClient)
-  baseUrl = 'http://localhost:3000/api/auth/device/'
+  baseUrl = 'http://localhost:3000/api/device/'
   getAllDevice() {
     return this.http.get(`${this.baseUrl}info`)
   }
