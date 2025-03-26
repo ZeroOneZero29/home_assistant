@@ -1,3 +1,105 @@
-.dadada {
-  font-family: "Montserrat Alternates";
+.main-title {
+  font-size: 80px;
+  font-family: 'Lack Line';
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 10px;
 }
+
+.page-title{
+  text-align: center;
+  font-family: 'Lack Regular';
+  color: var(--text-color);
+  font-size: 40px;
+  margin-bottom: 25px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+.content__container {
+  margin: auto auto;
+  margin-bottom: 50px
+}
+.form__container{
+  font-family: 'Montserrat Alternates';
+  background-color: var(--background-section);
+  border-radius: 7px;
+  border: 1px rgba($color: #FFFFFF, $alpha: 0.5);
+  max-width: 670px;
+  margin: 0 auto;
+
+}
+.login-form {
+  padding: 45px 70px;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr); 
+  grid-row-gap: 12px  ;
+  align-items: center;
+}
+
+.label__container{
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  gap: 2px;
+}
+.input{
+  background-color: var(--background-section);
+  border: 2px var(--text-color) solid;
+  padding: 14px 10px;
+  border-radius: 8px;
+  color: var(--text-color);
+}
+
+
+.submit-button {
+  background-color: var(--primary-color);
+  color: var(--background-section);
+  padding: 8px 180px;
+  border-radius: 8px;
+  font-size: 24px;
+  max-height: 50px;
+
+}
+.line {
+  border: 0;
+  padding-bottom: 30px;
+}
+.line_one {
+  border-top: 1px var(--primary-color) solid;
+}
+.line_two {
+  border-top: 2px var(--primary-color) solid;
+}
+.line_three {
+  border-top: 3px var(--primary-color) solid;
+}
+
+.line__container{
+  margin-top: auto
+}
+
+.line-header{
+  margin-top: 10vh;
+  border-top: 2px var(--primary-color) solid;
+}
+
+
+
+@media (width < 768px) { 
+  .main-title{
+    font-size: 50px;
+  }
+}
+
+
+
+@media (width < 425px) {
+  .main-title{
+    font-size: 35px;
+  }
+ }
