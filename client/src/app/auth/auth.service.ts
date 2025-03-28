@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { TokenResponse } from './auth.interface';
 import { catchError, tap, throwError } from 'rxjs';
@@ -33,16 +33,36 @@ export class AuthService {
     );
   }
 
+  regestration(payload: { name: string; email: string; password: string }): any {
+    return this.http.post(`${this.baseUrl}reg`, payload);
+  }
+
+  //headerDict = {
+  //  Authorization: `Bearer ${this.refreshToken}`,
+  //};
+
+  //requestOptions = {
+  //  headers: new HttpParams(this.headerDict),
+  //};
+  baseHeaders = new HttpHeaders().set('Authorization', `Bearer ${this.refreshToken}`);
+
   refreshAuthToken() {
-    return this.http.get<TokenResponse>(`${this.baseUrl}refresh`).pipe(
-      tap((val) => {
-        this.saveTokens(val);
-      }),
-      catchError((err) => {
-        this.logout();
-        return throwError(err);
-      }),
-    );
+    return this.http
+      .get<TokenResponse>(`${this.baseUrl}refresh`, {
+        headers: {
+          // prettier-ignore
+          "Authorization": `fkkfk`,
+        },
+      })
+      .pipe(
+        tap((val) => {
+          this.saveTokens(val);
+        }),
+        catchError((err) => {
+          this.logout();
+          return throwError(err);
+        }),
+      );
   }
 
   logout() {

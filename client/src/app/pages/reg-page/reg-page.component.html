@@ -1,1 +1,40 @@
-<p>reg-page works!</p>
+<div class="container">
+  <hr class="line line-header" />
+
+  <div class="content__container">
+    <h2 class="main-title">HomeAssistant</h2>
+    <h3 class="page-title">Регистрация</h3>
+
+    <section class="form__container">
+      <form action="" class="login-form" [formGroup]="regForm" (ngSubmit)="onReg()">
+        <label class="label__container"
+          >Имя
+          <input class="input" type="text" placeholder="Введить имя" formControlName="name" />
+        </label>
+
+        <label class="label__container"
+          >Email
+          <input class="input" type="email" placeholder="Введить email" formControlName="email" />
+        </label>
+
+        <label class="label__container"
+          >Пароль
+          <input
+            class="input"
+            type="password"
+            placeholder="Введить пароль"
+            formControlName="password"
+          />
+        </label>
+
+        <button class="reg-button" type="submit">Зарегестрироваться</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="line__container">
+    <hr class="line line_one" />
+    <hr class="line line_two" />
+    <hr class="line line_three" />
+  </div>
+</div>

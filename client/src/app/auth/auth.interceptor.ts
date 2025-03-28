@@ -13,6 +13,7 @@ let isRefreshing: boolean = false;
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.accessToken;
+  const refreshToken = authService.refreshToken;
   if (!token) return next(req);
 
   if (isRefreshing) {
@@ -43,7 +44,7 @@ const refreshAndProcced = (
       }),
     );
   }
-  return next(addToken(req, authService.accessToken!));
+  return next(addToken(req, authService.refreshToken!));
 };
 
 const addToken = (req: HttpRequest<any>, token: string) => {

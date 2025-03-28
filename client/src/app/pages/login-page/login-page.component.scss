@@ -6,12 +6,12 @@
   margin-bottom: 10px;
 }
 
-.page-title{
+.page-title {
   text-align: center;
   font-family: 'Lack Regular';
   color: var(--text-color);
   font-size: 40px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 .container {
   display: flex;
@@ -21,40 +21,39 @@
 }
 .content__container {
   margin: auto auto;
-  margin-bottom: 50px
+  margin-bottom: 50px;
 }
-.form__container{
+.form__container {
   font-family: 'Montserrat Alternates';
   background-color: var(--background-section);
   border-radius: 7px;
-  border: 1px rgba($color: #FFFFFF, $alpha: 0.5);
+  border: 1px rgba($color: #ffffff, $alpha: 0.5) solid;
   max-width: 670px;
   margin: 0 auto;
-
 }
 .login-form {
   padding: 45px 70px;
   display: grid;
-  grid-template-rows: repeat(3, 1fr); 
-  grid-row-gap: 12px  ;
+  grid-template-rows: repeat(3, 1fr);
+  grid-row-gap: 12px;
   align-items: center;
 }
 
-.label__container{
+.label__container {
   color: var(--text-color);
   display: flex;
   flex-direction: column;
   font-size: 20px;
   gap: 2px;
 }
-.input{
+.input {
   background-color: var(--background-section);
   border: 2px var(--text-color) solid;
   padding: 14px 10px;
   border-radius: 8px;
+  transition: 500ms box-shadow;
   color: var(--text-color);
 }
-
 
 .submit-button {
   background-color: var(--primary-color);
@@ -63,8 +62,14 @@
   border-radius: 8px;
   font-size: 24px;
   max-height: 50px;
-
+  transition: 500ms box-shadow;
 }
+.submit-button:hover {
+  -webkit-box-shadow: 0px 0px 10px 5px rgba($color: #ffb167, $alpha: 0.3);
+  -moz-box-shadow: 0px 0px 10px 5px rgba($color: #ffb167, $alpha: 0.3);
+  box-shadow: 0px 0px 10px 5px rgba($color: #ffb167, $alpha: 0.3);
+}
+
 .line {
   border: 0;
   padding-bottom: 30px;
@@ -79,27 +84,52 @@
   border-top: 3px var(--primary-color) solid;
 }
 
-.line__container{
-  margin-top: auto
+.line__container {
+  margin-top: auto;
 }
 
-.line-header{
+.line-header {
   margin-top: 10vh;
   border-top: 2px var(--primary-color) solid;
 }
 
-
-
-@media (width < 768px) { 
-  .main-title{
+@media (width < 768px) {
+  .page-title {
+    font-size: 35px;
+  }
+  .main-title {
     font-size: 50px;
+  }
+  .login-form {
+    padding: 25px 30px;
+    max-width: 400px;
+  }
+  .input {
+    max-width: 350px;
+  }
+  .submit-button {
+    padding: 8px 0px;
   }
 }
 
-
-
 @media (width < 425px) {
-  .main-title{
+  .page-title {
+    font-size: 25px;
+  }
+  .main-title {
     font-size: 35px;
   }
- }
+  .login-form {
+    padding: 15px 30px;
+  }
+
+  .submit-button {
+    padding: 8px 0px;
+  }
+}
+
+.input:focus {
+  -webkit-box-shadow: 0px 0px 10px 3px rgba(255, 255, 255, 0.3);
+  -moz-box-shadow: 0px 0px 10px 3px rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 0px 10px 3px rgba(255, 255, 255, 0.3);
+}
