@@ -1,11 +1,20 @@
-import { forwardRef, HttpException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  forwardRef,
+  HttpException,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { DeviceDto } from './device.dto';
 import { HttpService, HttpModule } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { catchError } from 'rxjs';
+import { catchError, of, throwError } from 'rxjs';
 import { UserService } from 'src/user/user.service';
 import { User } from 'src/entity/user.entity';
 import { JwtService } from '@nestjs/jwt';
+import { error, log } from 'console';
 
 @Injectable()
 export class DeviceService {
@@ -16,10 +25,19 @@ export class DeviceService {
     private jwtService: JwtService,
   ) {}
 
-  async getInfoDevice(accessToken: string) {
+  async checkOauthToken(accessToken: string) {
     const tokenDecode = this.jwtService.decode(accessToken);
     const email = tokenDecode.sub;
     const user: User | null = await this.userService.findByEmail(email);
+
+    return user;
+  }
+
+  async getInfoDevice(accessToken: string) {
+    const user = await this.checkOauthToken(accessToken);
+    if (!user!.oauthToken) {
+      return new ForbiddenException('Oauth токена нет');
+    }
     const oauthToken = user?.oauthToken;
     const configAxios = {
       method: 'get',
@@ -28,37 +46,47 @@ export class DeviceService {
       },
     };
 
-    const response = await this.httpService
-      .get('https://api.iot.yandex.net/v1.0/user/info', configAxios)
-      .toPromise();
-
-    return response?.data;
+    const response = this.httpService.get('https://api.iot.yandex.net/v1.0/user/info', configAxios);
+    return response
+      .toPromise()
+      .then((res) => {
+        return res?.data;
+      })
+      .catch((e) => {
+        if (e.status == 401) {
+          return new ForbiddenException('Oauth токен не валиден, попробуйте снова');
+        }
+      });
+    //return response.subscribe(
+    //  (res) => console.log(res),
+    //  (err) => {
+    //    console.log(err.status);
+    //    return err.status;
+    //  },
+    //);
   }
 
   async getInfoDeviceById(deviceDto: number, accessToken: string) {
-    try {
-      const tokenDecode = this.jwtService.decode(accessToken);
-      const email = tokenDecode.sub;
-      const user: User | null = await this.userService.findByEmail(email);
-      const oauthToken = user?.oauthToken;
-      const configAxios = {
-        url: `https://api.iot.yandex.net/v1.0/devices/${deviceDto}`,
-        method: 'get',
-        headers: {
-          Authorization: `Bearer ${oauthToken}`,
-        },
-      };
-      const response = await this.httpService.request(configAxios).toPromise();
-      return response?.data;
-    } catch (error) {
-      console.log(error);
+    const user = await this.checkOauthToken(accessToken);
+    if (!user!.oauthToken) {
+      return new ForbiddenException('Oauth токена нет');
     }
+    const oauthToken = user?.oauthToken;
+    const configAxios = {
+      url: `https://api.iot.yandex.net/v1.0/devices/${deviceDto}`,
+      method: 'get',
+      headers: {
+        Authorization: `Bearer ${oauthToken}`,
+      },
+    };
+    const response = await this.httpService.request(configAxios);
   }
 
   async changeStateDevice(deviceDto: number, accessToken: string) {
-    const tokenDecode = this.jwtService.decode(accessToken);
-    const email = tokenDecode.sub;
-    const user: User | null = await this.userService.findByEmail(email);
+    const user = await this.checkOauthToken(accessToken);
+    if (!user!.oauthToken) {
+      return new ForbiddenException('Oauth токена нет');
+    }
     const oauthToken = user?.oauthToken;
     const configAxiosGetInfo = {
       method: 'get',
