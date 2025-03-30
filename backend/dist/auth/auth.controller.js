@@ -35,7 +35,11 @@ let AuthController = class AuthController {
     async singIn(userLoginDto) {
         return this.authService.logIn(userLoginDto);
     }
-    async getYandexToken(oauth) { }
+    async getYandexToken(oauthToken, request) {
+        const [type, token] = request.headers.authorization?.split(' ');
+        const accessToken = type === 'Bearer' ? token : undefined;
+        return await this.authService.pushOauthInDb(accessToken, oauthToken.oauthToken);
+    }
     async refreshTokensAccess(request) {
         const [type, token] = request.headers.authorization?.split(' ');
         const refreshTokens = type === 'Bearer' ? token : undefined;
@@ -66,10 +70,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singIn", null);
 __decorate([
-    (0, common_1.Get)('oauth'),
-    __param(0, (0, common_1.Query)()),
+    (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
+    (0, common_1.Post)('oauth'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getYandexToken", null);
 __decorate([

@@ -13,12 +13,11 @@ exports.RefreshTokenStrategy = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const passport_jwt_1 = require("passport-jwt");
-const auth_constants_1 = require("../auth.constants");
 let RefreshTokenStrategy = class RefreshTokenStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt-refresh') {
     constructor() {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: auth_constants_1.jwtConstants.secretRefresh,
+            secretOrKey: process.env.JWT_REFRESH_SECRET,
             passReqToCallback: true,
         });
     }

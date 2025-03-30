@@ -1,21 +1,30 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, HttpException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { DeviceDto } from './device.dto';
 import { HttpService, HttpModule } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { catchError } from 'rxjs';
+import { UserService } from 'src/user/user.service';
+import { User } from 'src/entity/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class DeviceService {
   constructor(
+    private userService: UserService,
     private httpService: HttpService,
     private configService: ConfigService,
+    private jwtService: JwtService,
   ) {}
 
-  async getInfoDevice() {
+  async getInfoDevice(accessToken: string) {
+    const tokenDecode = this.jwtService.decode(accessToken);
+    const email = tokenDecode.sub;
+    const user: User | null = await this.userService.findByEmail(email);
+    const oauthToken = user?.oauthToken;
     const configAxios = {
       method: 'get',
       headers: {
-        Authorization: this.configService.get('yandex'),
+        Authorization: `Bearer ${oauthToken}`,
       },
     };
 
@@ -26,26 +35,38 @@ export class DeviceService {
     return response?.data;
   }
 
-  async getInfoDeviceById(deviceDto: number) {
-    const configAxios = {
-      url: `https://api.iot.yandex.net/v1.0/devices/${deviceDto}`,
-      method: 'get',
-      headers: {
-        Authorization: this.configService.get('yandex'),
-      },
-    };
-    const response = await this.httpService.request(configAxios).toPromise();
-
-    return response?.data;
+  async getInfoDeviceById(deviceDto: number, accessToken: string) {
+    try {
+      const tokenDecode = this.jwtService.decode(accessToken);
+      const email = tokenDecode.sub;
+      const user: User | null = await this.userService.findByEmail(email);
+      const oauthToken = user?.oauthToken;
+      const configAxios = {
+        url: `https://api.iot.yandex.net/v1.0/devices/${deviceDto}`,
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${oauthToken}`,
+        },
+      };
+      const response = await this.httpService.request(configAxios).toPromise();
+      return response?.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async changeStateDevice(deviceDto: number) {
+  async changeStateDevice(deviceDto: number, accessToken: string) {
+    const tokenDecode = this.jwtService.decode(accessToken);
+    const email = tokenDecode.sub;
+    const user: User | null = await this.userService.findByEmail(email);
+    const oauthToken = user?.oauthToken;
     const configAxiosGetInfo = {
       method: 'get',
       headers: {
-        Authorization: this.configService.get('yandex'),
+        Authorization: `Bearer ${oauthToken}`,
       },
     };
+
     const getStateDevice = await this.httpService
       .get(`https://api.iot.yandex.net/v1.0/devices/${deviceDto}`, configAxiosGetInfo)
       .toPromise();

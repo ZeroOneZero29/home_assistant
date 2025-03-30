@@ -1,4 +1,4 @@
 export declare const jwtConstants: {
-    secretAccess: string;
-    secretRefresh: string;
+    secretAccess: string | undefined;
+    secretRefresh: string | undefined;
 };

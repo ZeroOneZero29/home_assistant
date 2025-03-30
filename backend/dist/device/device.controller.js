@@ -21,46 +21,54 @@ let DeviceController = class DeviceController {
     constructor(deviceService) {
         this.deviceService = deviceService;
     }
-    async getInfoAllDevice() {
-        return this.deviceService.getInfoDevice();
+    async getInfoAllDevice(request) {
+        const [type, token] = request.headers.authorization?.split(' ');
+        const accessToken = type === 'Bearer' ? token : undefined;
+        return this.deviceService.getInfoDevice(accessToken);
     }
-    async getInfoDeviceId(deviceDto) {
+    async getInfoDeviceId(deviceDto, request) {
         try {
-            console.log(deviceDto.deviceID);
+            const [type, token] = request.headers.authorization?.split(' ');
+            const accessToken = type === 'Bearer' ? token : undefined;
             const id = deviceDto.deviceID;
-            return this.deviceService.getInfoDeviceById(id);
+            return this.deviceService.getInfoDeviceById(id, accessToken);
         }
         catch (err) {
             throw new common_1.InternalServerErrorException(err);
         }
     }
-    async changeStateDevice(deviceDto) {
+    async changeStateDevice(deviceDto, request) {
+        const [type, token] = request.headers.authorization?.split(' ');
+        const accessToken = type === 'Bearer' ? token : undefined;
         const id = deviceDto.deviceID;
-        return this.deviceService.changeStateDevice(id);
+        return this.deviceService.changeStateDevice(id, accessToken);
     }
 };
 exports.DeviceController = DeviceController;
 __decorate([
     (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
     (0, common_1.Get)('/info'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], DeviceController.prototype, "getInfoAllDevice", null);
 __decorate([
     (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
     (0, common_1.Get)('/info_device'),
     __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [device_dto_1.DeviceDto]),
+    __metadata("design:paramtypes", [device_dto_1.DeviceDto, Object]),
     __metadata("design:returntype", Promise)
 ], DeviceController.prototype, "getInfoDeviceId", null);
 __decorate([
     (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
     (0, common_1.Post)('/action'),
     __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [device_dto_1.DeviceDto]),
+    __metadata("design:paramtypes", [device_dto_1.DeviceDto, Object]),
     __metadata("design:returntype", Promise)
 ], DeviceController.prototype, "changeStateDevice", null);
 exports.DeviceController = DeviceController = __decorate([

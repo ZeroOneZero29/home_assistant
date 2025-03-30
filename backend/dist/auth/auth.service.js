@@ -55,28 +55,33 @@ let AuthService = class AuthService {
         });
         return tokens;
     }
+    async pushOauthInDb(accessToken, oauthToken) {
+        const infoInToken = this.jwtService.decode(accessToken);
+        const user = await this.userService.findByEmail(infoInToken.sub);
+        const email = infoInToken.sub;
+        if (!user) {
+            throw new common_1.UnauthorizedException(`Пользователь с данным ${email} не найден!`);
+        }
+        const oauthData = {
+            oauthToken,
+            email: email,
+        };
+        return await this.userService.updateOauthToken(oauthData);
+    }
     async updateAccessTokens(refreshToken) {
         const infoInToken = this.jwtService.decode(refreshToken);
         const payload = {
-            sub: infoInToken.sub,
+            email: infoInToken.sub,
             id: infoInToken.id,
         };
-        const tokenAcceess = await this.genTokensAcceess(payload);
+        const tokenAcceess = await this.genTokens(payload);
         return tokenAcceess;
-    }
-    async genTokensAcceess(userInfo) {
-        const payload = userInfo;
-        const accessToken = this.jwtService.sign(payload, {
-            secret: this.configService.get('secret_jwt'),
-            expiresIn: '30s',
-        });
-        return { accessToken };
     }
     async genTokens(user) {
         const payload = { sub: user.email, id: user.id };
         const accessToken = await this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt'),
-            expiresIn: '30s',
+            expiresIn: '30m',
         });
         const refreshToken = await this.jwtService.sign(payload, {
             secret: this.configService.get('secret_jwt_refresh'),

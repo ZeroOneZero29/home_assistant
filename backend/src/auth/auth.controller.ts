@@ -5,6 +5,7 @@ import { AccessTokenGuard } from 'src/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/guards/refreshToken.guard';
 import { Response, Request } from 'express';
 import { RefreshTokenStrategy } from './strategy/refresh.token.strategy';
+import { OauthToken } from './user-jwt.interfase';
 
 interface Tokens {
   accessToken: string;
@@ -39,8 +40,13 @@ export class AuthController {
     return this.authService.logIn(userLoginDto);
   }
 
-  @Get('oauth')
-  public async getYandexToken(@Query() oauth: string) {}
+  @UseGuards(AccessTokenGuard)
+  @Post('oauth')
+  public async getYandexToken(@Body() oauthToken: OauthToken, @Req() request: Request) {
+    const [type, token]: any = request.headers.authorization?.split(' ');
+    const accessToken = type === 'Bearer' ? token : undefined;
+    return await this.authService.pushOauthInDb(accessToken, oauthToken.oauthToken);
+  }
 
   @UseGuards(RefreshTokenGuard)
   @Get('/refresh')

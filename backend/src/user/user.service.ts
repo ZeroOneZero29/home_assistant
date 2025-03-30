@@ -1,5 +1,5 @@
 import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { UserRegDto, UserLoginDto, UserTokenDto } from './user.dto';
+import { UserRegDto, UserLoginDto, UserTokenDto, OauthTokenDto } from './user.dto';
 import { User } from 'src/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Not, Repository } from 'typeorm';
@@ -35,10 +35,17 @@ export class UserService {
     return userUpadeToken;
   }
 
+  async updateOauthToken(oauthTokenDto: OauthTokenDto): Promise<any> {
+    const { email, oauthToken } = oauthTokenDto;
+    console.log(oauthToken, '123');
+    const user = await this.userRepository.findOneBy({ email });
+    const userOauthUpdate = await this.userRepository.save({ ...user, oauthToken: oauthToken });
+    return userOauthUpdate;
+  }
+
   async updateTokensRefresh(userTokenDto: UserTokenDto): Promise<any> {
     const { email, refreshToken } = userTokenDto;
     const user = await this.userRepository.findOneBy({ email });
-    console.log(refreshToken);
     const userUpadeToken = await this.userRepository.save({ ...user, refreshToken: refreshToken });
     return userUpadeToken;
   }

@@ -4,32 +4,40 @@ import { RegPageComponent } from './pages/reg-page/reg-page.component';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { DevicePageComponent } from './pages/device-page/device-page.component';
 import { accessGuard } from './auth/access.guard';
-
+import { OauthPageComponent } from './pages/oauth-page/oauth-page.component';
+import { OauthPageRedirectComponent } from './pages/oauth-page-redirect/oauth-page-redirect.component';
 
 export const routes: Routes = [
-  { 
+  {
     path: 'device',
     component: DevicePageComponent,
-    canActivate: [accessGuard]
+    canActivate: [accessGuard],
   },
 
-  { path: '',
-    component: MainPageComponent,
-    title: ''
-  },
+  { path: '', component: MainPageComponent, title: '' },
 
   {
     path: 'login',
     component: LoginPageComponent,
-    title: 'login'
+    title: 'login',
   },
-  
+
   {
     path: 'reg',
     component: RegPageComponent,
-    title: 'regestration'
+    title: 'regestration',
   },
 
+  {
+    path: 'oauth',
+    component: OauthPageComponent,
+    title: 'oauth',
+    canActivate: [accessGuard],
+  },
 
-
+  {
+    path: 'oauth-redirect',
+    component: OauthPageRedirectComponent,
+    title: 'oauth-redirect',
+  },
 ];

@@ -40,3 +40,11 @@ export class UserTokenDto {
   @IsString()
   refreshToken: string;
 }
+
+export class OauthTokenDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  oauthToken: string;
+}

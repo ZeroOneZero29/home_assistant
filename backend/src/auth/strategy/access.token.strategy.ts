@@ -11,7 +11,7 @@ import { UserLoginDto } from 'src/user/user.dto';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      secretOrKey: jwtConstants.secretAccess,
+      secretOrKey: process.env.JWT_ACCESS_SECRET as string,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
     });

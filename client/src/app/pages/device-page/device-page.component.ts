@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DeviceService } from '../../data/service/device.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { AllDevice, Device } from '../../data/interface/device.interface';
 @Component({
   selector: 'app-device-page',
   imports: [CommonModule],
@@ -10,11 +11,12 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 export class DevicePageComponent {
   deviceService = inject(DeviceService);
 
-  device$ = this.deviceService.getAllDevice();
+  //device$ = this.deviceService.getAllDevice();
 
+  allDevice: AllDevice<Device> | null = null;
   ngOnInit() {
     this.deviceService.getAllDevice().subscribe((res) => {
-      console.log(res);
+      this.allDevice = res;
     });
   }
 }
