@@ -24,7 +24,7 @@ export class LoginPageComponent {
     if (this.loginForm.valid) {
       //@ts-ignore
       this.authService.login(this.loginForm.value).subscribe((res) => {
-        this.router.navigate(['oauth']);
+        this.router.navigate(['device']);
       });
       console.log(this.loginForm.value);
     }

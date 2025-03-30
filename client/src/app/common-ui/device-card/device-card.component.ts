@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { allDevice, Device } from '../../data/interface/device.interface';
+import { AllDevice, Device, Rooms } from '../../data/interface/device.interface';
 
 @Component({
   selector: 'app-device-card',
@@ -8,5 +8,5 @@ import { allDevice, Device } from '../../data/interface/device.interface';
   styleUrl: './device-card.component.scss',
 })
 export class DeviceCardComponent {
-  @Input() device!: allDevice<Device>;
+  @Input() device!: AllDevice<Device, Rooms>;
 }

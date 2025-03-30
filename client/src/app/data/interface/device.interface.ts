@@ -1,3 +1,8 @@
+export interface AllDevice<> {
+  devices: Device[];
+  rooms: Rooms[];
+  status: string;
+}
 export interface Device {
   id: string;
   name: string;
@@ -7,8 +12,8 @@ export interface Device {
   properties: [];
 }
 
-export interface AllDevice<T> {
-  devices: T[];
-  rooms: object[];
-  status: string;
+export interface Rooms {
+  id: string;
+  devices: [];
+  name: string;
 }

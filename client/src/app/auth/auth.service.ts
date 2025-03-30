@@ -47,22 +47,15 @@ export class AuthService {
   baseHeaders = new HttpHeaders().set('Authorization', `Bearer ${this.refreshToken}`);
 
   refreshAuthToken() {
-    return this.http
-      .get<TokenResponse>(`${this.baseUrl}refresh`, {
-        headers: {
-          // prettier-ignore
-          "Authorization": `fkkfk`,
-        },
-      })
-      .pipe(
-        tap((val) => {
-          this.saveTokens(val);
-        }),
-        catchError((err) => {
-          this.logout();
-          return throwError(err);
-        }),
-      );
+    return this.http.get<TokenResponse>(`${this.baseUrl}refresh`).pipe(
+      tap((val) => {
+        this.saveTokens(val);
+      }),
+      catchError((err) => {
+        this.logout();
+        return throwError(err);
+      }),
+    );
   }
 
   logout() {
