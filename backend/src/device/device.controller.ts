@@ -1,9 +1,7 @@
 import {
-  Body,
   Controller,
   Get,
   InternalServerErrorException,
-  Param,
   Post,
   Query,
   Req,
@@ -23,27 +21,23 @@ export class DeviceController {
   public async getInfoAllDevice(@Req() request: Request) {
     const [type, token]: any = request.headers.authorization?.split(' ');
     const accessToken = type === 'Bearer' ? token : undefined;
-    return this.deviceService.getInfoDevice(accessToken);
+    return await this.deviceService.getInfoDevice(accessToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('/info_device')
   public async getInfoDeviceId(@Query() deviceDto: DeviceDto, @Req() request: Request) {
-    try {
-      const [type, token]: any = request.headers.authorization?.split(' ');
-      const accessToken = type === 'Bearer' ? token : undefined;
-      const id = deviceDto.deviceID;
-      return this.deviceService.getInfoDeviceById(id, accessToken);
-    } catch (err: unknown) {
-      throw new InternalServerErrorException(err);
-    }
+    const [type, token]: any = request.headers.authorization?.split(' ');
+    const accessToken = type === 'Bearer' ? token : undefined;
+    const id = deviceDto.id;
+    return this.deviceService.getInfoDeviceById(id, accessToken);
   }
   @UseGuards(AccessTokenGuard)
   @Post('/action')
   public async changeStateDevice(@Query() deviceDto: DeviceDto, @Req() request: Request) {
     const [type, token]: any = request.headers.authorization?.split(' ');
     const accessToken = type === 'Bearer' ? token : undefined;
-    const id = deviceDto.deviceID;
+    const id = deviceDto.id;
     return this.deviceService.changeStateDevice(id, accessToken);
   }
 }

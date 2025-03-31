@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { UserLoginDto, UserRegDto, UserTokenDto } from 'src/user/user.dto';
 import { AccessTokenGuard } from 'src/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/guards/refreshToken.guard';
-import { Response, Request } from 'express';
+import { Request } from 'express';
 import { RefreshTokenStrategy } from './strategy/refresh.token.strategy';
 import { OauthToken } from './user-jwt.interfase';
 

@@ -26,20 +26,20 @@ let DeviceService = class DeviceService {
         const tokenDecode = this.jwtService.decode(accessToken);
         const email = tokenDecode.sub;
         const user = await this.userService.findByEmail(email);
-        return user;
+        if (!user?.oauthToken) {
+            throw new common_1.ForbiddenException('Токена нет');
+        }
+        return user.oauthToken;
     }
     async getInfoDevice(accessToken) {
-        const user = await this.checkOauthToken(accessToken);
-        if (!user.oauthToken) {
-            return new common_1.ForbiddenException('Oauth токена нет');
-        }
-        const oauthToken = user?.oauthToken;
+        const oauthToken = await this.checkOauthToken(accessToken);
         const configAxios = {
             method: 'get',
             headers: {
                 Authorization: `Bearer ${oauthToken}`,
             },
         };
+        console.log();
         const response = this.httpService.get('https://api.iot.yandex.net/v1.0/user/info', configAxios);
         return response
             .toPromise()
@@ -48,16 +48,13 @@ let DeviceService = class DeviceService {
         })
             .catch((e) => {
             if (e.status == 401) {
-                return new common_1.ForbiddenException('Oauth токен не валиден, попробуйте снова');
+                throw new common_1.ForbiddenException('Токен не валиден');
             }
         });
     }
     async getInfoDeviceById(deviceDto, accessToken) {
-        const user = await this.checkOauthToken(accessToken);
-        if (!user.oauthToken) {
-            return new common_1.ForbiddenException('Oauth токена нет');
-        }
-        const oauthToken = user?.oauthToken;
+        console.log(deviceDto);
+        const oauthToken = await this.checkOauthToken(accessToken);
         const configAxios = {
             url: `https://api.iot.yandex.net/v1.0/devices/${deviceDto}`,
             method: 'get',
@@ -66,13 +63,19 @@ let DeviceService = class DeviceService {
             },
         };
         const response = await this.httpService.request(configAxios);
+        return response
+            .toPromise()
+            .then((res) => {
+            return res?.data;
+        })
+            .catch((e) => {
+            if (e.status == 401) {
+                throw new common_1.ForbiddenException('Токен не валиден');
+            }
+        });
     }
     async changeStateDevice(deviceDto, accessToken) {
-        const user = await this.checkOauthToken(accessToken);
-        if (!user.oauthToken) {
-            return new common_1.ForbiddenException('Oauth токена нет');
-        }
-        const oauthToken = user?.oauthToken;
+        const oauthToken = await this.checkOauthToken(accessToken);
         const configAxiosGetInfo = {
             method: 'get',
             headers: {

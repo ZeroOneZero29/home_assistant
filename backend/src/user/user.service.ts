@@ -1,8 +1,8 @@
-import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserRegDto, UserLoginDto, UserTokenDto, OauthTokenDto } from './user.dto';
 import { User } from 'src/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 interface TokensAcceess {
   accessToken: string;

@@ -24,23 +24,18 @@ let DeviceController = class DeviceController {
     async getInfoAllDevice(request) {
         const [type, token] = request.headers.authorization?.split(' ');
         const accessToken = type === 'Bearer' ? token : undefined;
-        return this.deviceService.getInfoDevice(accessToken);
+        return await this.deviceService.getInfoDevice(accessToken);
     }
     async getInfoDeviceId(deviceDto, request) {
-        try {
-            const [type, token] = request.headers.authorization?.split(' ');
-            const accessToken = type === 'Bearer' ? token : undefined;
-            const id = deviceDto.deviceID;
-            return this.deviceService.getInfoDeviceById(id, accessToken);
-        }
-        catch (err) {
-            throw new common_1.InternalServerErrorException(err);
-        }
+        const [type, token] = request.headers.authorization?.split(' ');
+        const accessToken = type === 'Bearer' ? token : undefined;
+        const id = deviceDto.id;
+        return this.deviceService.getInfoDeviceById(id, accessToken);
     }
     async changeStateDevice(deviceDto, request) {
         const [type, token] = request.headers.authorization?.split(' ');
         const accessToken = type === 'Bearer' ? token : undefined;
-        const id = deviceDto.deviceID;
+        const id = deviceDto.id;
         return this.deviceService.changeStateDevice(id, accessToken);
     }
 };

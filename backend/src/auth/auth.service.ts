@@ -1,21 +1,9 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import {
-  CreateTokenDto,
-  OauthTokenDto,
-  UserLoginDto,
-  UserRegDto,
-  UserTokenDto,
-} from 'src/user/user.dto';
+import { CreateTokenDto, UserLoginDto, UserRegDto } from 'src/user/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserService } from 'src/user/user.service';
-import { RefreshTokenStrategy } from './strategy/refresh.token.strategy';
 import { User } from 'src/entity/user.entity';
 interface Tokens {
   accessToken: string;
