@@ -17,3 +17,9 @@ export interface Rooms {
   devices: [];
   name: string;
 }
+
+//export interface ErrorDevice {
+//  message: string;
+//  error: string;
+//  statusCode: number;
+//}

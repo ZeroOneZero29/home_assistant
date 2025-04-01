@@ -95,3 +95,24 @@ h6 {
   font-size: inherit;
   font-weight: 400;
 }
+
+body {
+  background-image: url(../public/assets/img/bg_pc.jpg);
+  background-size: cover;
+  background-position: center center;
+  margin: 0px;
+  min-height: 100%;
+  width: 100%;
+  @media (width < 768px) {
+    background-image: url(../public/assets/img/bg_tablet.jpg);
+  }
+  @media (width < 425px) {
+    background-image: url(../public/assets/img/bg_mobile.jpg);
+  }
+}
+
+html {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}

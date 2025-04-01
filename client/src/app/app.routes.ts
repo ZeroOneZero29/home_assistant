@@ -6,15 +6,22 @@ import { DevicePageComponent } from './pages/device-page/device-page.component';
 import { accessGuard } from './auth/access.guard';
 import { OauthPageComponent } from './pages/oauth-page/oauth-page.component';
 import { OauthPageRedirectComponent } from './pages/oauth-page-redirect/oauth-page-redirect.component';
+import { LayoutComponent } from './common-ui/layout/layout.component';
 
 export const routes: Routes = [
-  {
-    path: 'device',
-    component: DevicePageComponent,
-    canActivate: [accessGuard],
-  },
-
   { path: '', component: MainPageComponent, title: '' },
+
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'device',
+        component: DevicePageComponent,
+        canActivate: [accessGuard],
+      },
+    ],
+  },
 
   {
     path: 'login',

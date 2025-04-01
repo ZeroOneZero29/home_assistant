@@ -13,8 +13,8 @@ import { YandexService } from '../../data/service/yandex.service';
 export class OauthPageComponent {
   constructor(private renderer: Renderer2) {}
   router = inject(Router);
-  yandexService = inject(YandexService);
 
+  yandexService = inject(YandexService);
   addJsToElement(src: string): HTMLScriptElement {
     const script = document.createElement('script');
     script.type = 'text/javascript';

@@ -13,8 +13,6 @@ export class LoginPageComponent {
   router = inject(Router);
   authService = inject(AuthService);
 
-  myErorr = null;
-
   loginForm = new FormGroup({
     email: new FormControl<string | null>(null, Validators.required),
     password: new FormControl<string | null>(null, Validators.required),
