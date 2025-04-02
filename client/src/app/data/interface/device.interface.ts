@@ -8,14 +8,30 @@ export interface Device {
   name: string;
   type: string;
   room: string;
-  capabilities: [];
-  properties: [];
+  capabilities: Capabilities[];
+  properties: Properties[];
 }
 
 export interface Rooms {
   id: string;
   devices: [];
   name: string;
+}
+
+export interface Capabilities {
+  type: string;
+  state: {
+    instance: string;
+    value: boolean;
+  };
+}
+
+export interface Properties {
+  type: string;
+  state: {
+    instance: string;
+    value: number;
+  };
 }
 
 //export interface ErrorDevice {

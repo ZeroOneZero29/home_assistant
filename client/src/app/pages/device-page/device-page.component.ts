@@ -18,6 +18,7 @@ export class DevicePageComponent {
   //device$ = this.deviceService.getAllDevice();
 
   allDevice$ = this.deviceService.getAllDevice();
+
   ngOnInit() {}
 
   //onSubmit() {

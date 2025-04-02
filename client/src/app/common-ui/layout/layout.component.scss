@@ -1,5 +1,8 @@
 :host {
   display: grid;
-  grid-template-rows: 100px 1fr;
+  grid-template-rows: 110px 1fr;
   background-size: 100%;
+  font-family: 'Lack Regular';
+  color: var(--text-color);
+  border-bottom: 2px var(--primary-color) solid;
 }

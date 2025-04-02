@@ -11,8 +11,6 @@ export class YandexService {
   postTokenYandex(res: YandexToken) {
     console.log(res.access_token);
     const postToken = { oauthToken: res.access_token };
-    return this.http.post<any>(`${this.baseUrl}oauth`, postToken).subscribe((res) => {
-      console.log(res);
-    });
+    return this.http.post<any>(`${this.baseUrl}oauth`, postToken);
   }
 }
