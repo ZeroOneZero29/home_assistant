@@ -12,9 +12,10 @@
   align-items: flex-end;
   gap: 8px;
 }
+
 .icon__header_climate {
-  width: 26px;
-  height: 67px;
+  width: 24px;
+  height: 60px;
 }
 .text-container {
   height: min-content;
@@ -27,7 +28,7 @@
 }
 .date-container {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 20px;
 }
 .icon__header {
@@ -48,6 +49,7 @@
   font-size: 24px;
 }
 .button-container {
+  padding-top: 10px;
   display: flex;
   gap: 8px;
   align-items: center;
@@ -92,7 +94,7 @@
   height: 26px;
   width: 26px;
   left: 4px;
-  bottom: 4px;
+  bottom: 3px;
   background-color: white;
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -107,9 +109,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(24px);
-  -ms-transform: translateX(24px);
-  transform: translateX(24px);
+  -webkit-transform: translateX(22px);
+  -ms-transform: translateX(22px);
+  transform: translateX(22px);
 }
 
 /* Закругленные ползунки */

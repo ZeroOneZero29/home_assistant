@@ -1,7 +1,7 @@
 @if (himidity) {
 <div class="header__container">
   <div class="climate-container">
-    <svg class="icon__header_climate" icon="thermometer"></svg>
+    <svg class="icon__header_climate" icon="thermometer" height="60" width="24"></svg>
     <div class="text-container">
       <p class="himidity">{{ himidity }}%</p>
       <p class="temperature">{{ temperature }}<sup>o</sup>C</p>
@@ -9,7 +9,7 @@
   </div>
 
   <div class="date-container">
-    <svg class="icon__header" icon="calendar"></svg>
+    <svg class="icon__header" icon="calendar" height="60" width="60"></svg>
     <div class="text-container-date">
       <p class="date">
         {{ now | date : 'd MMM' }}
@@ -22,7 +22,7 @@
     <p class="ligth">Общий свет</p>
 
     <label class="switch">
-      <input type="checkbox" checked (click)="Click()" />
+      <input type="checkbox" checked (click)="changeAllLight()" />
       <span class="slider round"></span>
     </label>
   </div>
