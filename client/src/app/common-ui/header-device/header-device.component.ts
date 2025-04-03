@@ -22,7 +22,6 @@ export class HeaderDeviceComponent {
 
   @Input() device!: Device[] | null;
   deviceService: DeviceService = inject(DeviceService);
-  stateDevice = null;
   himidity: number | null = null;
   temperature: string | null = null;
   ngOnChanges() {
@@ -36,40 +35,24 @@ export class HeaderDeviceComponent {
   }
 
   changeAllLight() {
-    let stateDevice$ = this.deviceService
+    console.log(this.device);
+    const stateDevice$ = this.deviceService
       .getAllDevice()
       .pipe(
-        //tap((x) => console.log(x)),
         map((e) => e.devices),
-
-        //switchMap((values) => from(values)),
-        //concatMap((value) => timer(10).pipe(mapTo(value))),
-        map((res) => res.filter((res: Device) => res.type === 'devices.types.light')),
-
-        tap((x) => console.log(x)),
-        //map((e) => {
-        //  console.log(e.type);
-        //  return e.type;
-        //}),
-        //filter((el) => el.type === 'devices.types.light'),
-        //tap((x) => console.log(x)),
+        map((e) => {
+          let el: Device[] = e.filter(
+            (e: Device) => e.type === 'devices.types.light' || e.type === 'devices.types.socket',
+          );
+          let off: Device[] = el.filter((e: Device) => e.capabilities[0].state.value === true);
+          return off.map((e) => e.id);
+        }),
       )
-      .subscribe((res: Device[]) => {
+      .subscribe((res: string[]) => {
         console.log(res);
+        if (res.length > 0) {
+          this.deviceService.changeAllLightDevice(res);
+        }
       });
-
-    const ligthDevice: string[] | undefined = this.device
-      ?.filter(function (e) {
-        return (
-          e.type == 'devices.types.light' ||
-          e.type == 'devices.types.light.ceiling' ||
-          e.type == 'devices.types.light.light.lamp' ||
-          e.type == 'devices.types.light.strip'
-        );
-      })
-      .filter((e) => e.capabilities[0].state.value === true)
-      .map((e) => e.id);
-
-    console.log(ligthDevice);
   }
 }

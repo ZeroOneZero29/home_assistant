@@ -1,6 +1,19 @@
+:host {
+  border-bottom: 2px var(--primary-color) solid;
+}
+
 .header__container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  max-width: 1000px;
+  height: 110px;
+  margin: 0 auto;
+  justify-items: center;
+  align-items: center;
+}
+.header__container_else {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   max-width: 1000px;
   height: 110px;
   margin: 0 auto;
@@ -101,11 +114,11 @@
 }
 
 input:checked + .slider {
-  background-color: rgba($color: #434242, $alpha: 0.6);
+  background-color: rgba($color: #434242, $alpha: 0.7);
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px var(--primary-color);
+input:hover + .slider {
+  box-shadow: 0 0 2px var(--primary-color);
 }
 
 input:checked + .slider:before {
@@ -126,4 +139,79 @@ input:checked + .slider:before {
 .btn {
   background: none;
   border: none;
+}
+
+@media (width < 768px) {
+  .ligth {
+    font-size: 20px;
+  }
+  .date {
+    font-size: 18px;
+  }
+  .time {
+    font-size: 20px;
+  }
+  .himidity {
+    font-size: 18px;
+  }
+  .temperature {
+    font-size: 20px;
+  }
+  .icon__header use {
+    height: 50px;
+  }
+  .button-container {
+    padding: 0;
+    flex-direction: column-reverse;
+  }
+  .date-container {
+    gap: 12px;
+  }
+}
+
+@media (width < 600px) {
+  .header__container {
+    grid-template-columns: 1fr 1fr;
+  }
+  .date-container {
+    display: none;
+  }
+  .switch {
+    height: 30px;
+    width: 60px;
+  }
+  .slider:before {
+    height: 20px;
+    width: 20px;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(28px);
+    -ms-transform: translateX(28px);
+    transform: translateX(28px);
+  }
+}
+
+@media (width < 425px) {
+  .button-container {
+    padding-top: 5px;
+  }
+  .switch {
+    height: 26px;
+    width: 54px;
+  }
+  .slider:before {
+    height: 16px;
+    width: 16px;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(27px);
+    -ms-transform: translateX(27px);
+    transform: translateX(27px);
+  }
+  .temperature {
+    font-size: 18px;
+  }
+  .himidity {
+    font-size: 16px;
+  }
 }

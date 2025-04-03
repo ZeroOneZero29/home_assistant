@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AllDevice } from '../interface/device.interface';
+import { AllDevice, Device } from '../interface/device.interface';
 import { catchError, map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -20,5 +20,12 @@ export class DeviceService {
         }
       }),
     );
+  }
+
+  changeAllLightDevice(deviceId: string[]) {
+    console.log('ad');
+    return this.http.post(`${this.baseUrl}light-device`, deviceId).subscribe((res) => {
+      console.log(res);
+    });
   }
 }

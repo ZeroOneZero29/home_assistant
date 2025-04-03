@@ -8,5 +8,5 @@ import { AllDevice, Device, Rooms } from '../../data/interface/device.interface'
   styleUrl: './device-card.component.scss',
 })
 export class DeviceCardComponent {
-  @Input() device!: AllDevice<Device, Rooms>;
+  @Input() device!: AllDevice;
 }
