@@ -23,9 +23,6 @@ export class DeviceService {
   }
 
   changeAllLightDevice(deviceId: string[]) {
-    console.log('ad');
-    return this.http.post(`${this.baseUrl}light-device`, deviceId).subscribe((res) => {
-      console.log(res);
-    });
+    return this.http.post(`${this.baseUrl}light-device`, deviceId).subscribe((res) => {});
   }
 }

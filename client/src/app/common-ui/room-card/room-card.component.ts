@@ -12,9 +12,9 @@ export class RoomCardComponent {
   deviceService: DeviceService = inject(DeviceService);
   myRoom: Rooms[] | null = null;
 
-  ngOnInit() {
-    this.deviceService.getAllDevice().subscribe((res: AllDevice) => {
-      this.myRoom = res.rooms;
-    });
-  }
+  //ngOnInit() {
+  //  this.deviceService.getAllDevice().subscribe((res: AllDevice) => {
+  //    this.myRoom = res.rooms;
+  //  });
+  //}
 }

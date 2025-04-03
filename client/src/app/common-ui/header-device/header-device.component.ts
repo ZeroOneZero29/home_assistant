@@ -31,18 +31,17 @@ export class HeaderDeviceComponent {
     const temperatureT = himidityArr[0].properties.filter((e) => e.state.instance == 'temperature');
     const temperatureStr = temperatureT[0].state.value;
     this.temperature = String(temperatureStr).replace('.', ',');
-    console.log(himidityArr);
   }
 
   changeAllLight() {
-    console.log(this.device);
     const stateDevice$ = this.deviceService
       .getAllDevice()
       .pipe(
+        tap((e) => console.log(e)),
         map((e) => e.devices),
         map((e) => {
           let el: Device[] = e.filter(
-            (e: Device) => e.type === 'devices.types.light' || e.type === 'devices.types.socket',
+            (e: Device) => e.type === 'devices.types.socket' || e.type === 'devices.types.light',
           );
           let off: Device[] = el.filter((e: Device) => e.capabilities[0].state.value === true);
           return off.map((e) => e.id);

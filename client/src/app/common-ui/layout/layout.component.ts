@@ -7,7 +7,7 @@ import { RoomCardComponent } from '../room-card/room-card.component';
 
 @Component({
   selector: 'app-layout',
-  imports: [RoomCardComponent, RouterOutlet, HeaderDeviceComponent],
+  imports: [RouterOutlet, HeaderDeviceComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
