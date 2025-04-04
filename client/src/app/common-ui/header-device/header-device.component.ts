@@ -1,9 +1,9 @@
-import { Component, inject, Input, input } from '@angular/core';
-import { AllDevice, Device } from '../../data/interface/device.interface';
-import { DatePipe, JsonPipe } from '@angular/common';
+import { Component, inject, Input, signal } from '@angular/core';
+import { Device } from '../../data/interface/device.interface';
+import { DatePipe } from '@angular/common';
 import { SvgIconComponent } from '../../helpers/svg-icon/svg-icon.component';
 import { DeviceService } from '../../data/service/device.service';
-import { concatMap, filter, from, map, mapTo, switchMap, tap, timer } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-header-device',
@@ -24,6 +24,7 @@ export class HeaderDeviceComponent {
   deviceService: DeviceService = inject(DeviceService);
   himidity: number | null = null;
   temperature: string | null = null;
+
   ngOnChanges() {
     const himidityArr = this.device!.filter((e) => e.type == 'devices.types.sensor.climate');
     const himidityT = himidityArr[0].properties.filter((e) => e.state.instance == 'humidity');
@@ -37,7 +38,6 @@ export class HeaderDeviceComponent {
     const stateDevice$ = this.deviceService
       .getAllDevice()
       .pipe(
-        tap((e) => console.log(e)),
         map((e) => e.devices),
         map((e) => {
           let el: Device[] = e.filter(
@@ -48,10 +48,18 @@ export class HeaderDeviceComponent {
         }),
       )
       .subscribe((res: string[]) => {
-        console.log(res);
         if (res.length > 0) {
           this.deviceService.changeAllLightDevice(res);
         }
       });
+  }
+
+  isStateToggle = signal<boolean>(true);
+  toggleChangeStatus() {
+    this.isStateToggle.set(false);
+
+    setTimeout(() => {
+      this.isStateToggle.set(true);
+    }, 350);
   }
 }
