@@ -14,7 +14,7 @@ export interface Device {
 
 export interface Rooms {
   id: string;
-  devices: [];
+  devices: string[];
   name: string;
 }
 

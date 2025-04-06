@@ -1,5 +1,20 @@
 <app-header-device [device]="device"></app-header-device>
+<div>
+  <div class="room__container">
+    <h2 class="room_title">Комнаты</h2>
 
+    <div class="card__container">
+      <swiper-container class="swiper-wrapper" init="false">
+        @for(room of rooms; track room.id) {
+
+        <swiper-slide>
+          <app-room-card [room]="room"></app-room-card>
+        </swiper-slide>
+        }
+      </swiper-container>
+    </div>
+  </div>
+</div>
 <div>
   <router-outlet></router-outlet>
 </div>
