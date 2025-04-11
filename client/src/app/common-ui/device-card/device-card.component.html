@@ -1,3 +1,11 @@
-<p>device-card works!</p>
+@if(devices) {
 
-<p>{{ device.rooms[0] }}</p>
+<div class="device-card__container">
+  <div class="left_container">
+    <img [src]="devices.type | imgDevice" alt="" />
+    <p class="name_device">{{ devices.name }}</p>
+    <p class="name_room">{{ devices.room }}</p>
+  </div>
+</div>
+
+}

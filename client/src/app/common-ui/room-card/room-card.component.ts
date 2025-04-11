@@ -13,7 +13,6 @@ import { SvgIconComponent } from '../../helpers/svg-icon/svg-icon.component';
 export class RoomCardComponent {
   deviceService: DeviceService = inject(DeviceService);
   @Input() room!: Rooms;
-  myRoom: Rooms[] | null = null;
 
   //ngOnInit() {
   //  this.deviceService.getAllDevice().subscribe((res: AllDevice) => {
