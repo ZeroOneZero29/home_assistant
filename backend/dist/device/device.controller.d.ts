@@ -7,4 +7,5 @@ export declare class DeviceController {
     getInfoAllDevice(request: Request): Promise<any>;
     getInfoDeviceId(deviceDto: DeviceDto, request: Request): Promise<any>;
     changeStateDevice(deviceDto: DeviceDto, request: Request): Promise<string>;
+    changeStateLightDevice(deviceId: string[], request: Request): Promise<void>;
 }

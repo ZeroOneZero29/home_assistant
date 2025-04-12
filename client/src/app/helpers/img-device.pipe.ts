@@ -9,5 +9,5 @@ export class ImgDevicePipe implements PipeTransform {
     return this.roomImgObj.get(value);
   }
 
-  roomImgObj = new Map([['devices.types.light', 'access/img/devices/lamp/light']]);
+  roomImgObj = new Map([['devices.types.light', '/assets/img/devices/lamp/light.png']]);
 }

@@ -8,10 +8,11 @@ import { flatMap, repeat } from 'rxjs';
 import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper/types';
 import { CommonModule } from '@angular/common';
+import { DeviceCardComponent } from '../device-card/device-card.component';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, HeaderDeviceComponent, RoomCardComponent, CommonModule],
+  imports: [RouterOutlet, HeaderDeviceComponent, RoomCardComponent, DeviceCardComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -61,5 +62,9 @@ export class LayoutComponent {
 
     // and now initialize it
     swiperEl.initialize();
+  }
+
+  testOutId(idRoom: string) {
+    this.rooms = this.rooms?.filter();
   }
 }

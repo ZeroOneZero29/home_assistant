@@ -8,7 +8,7 @@
         @for(room of rooms; track room.id) {
 
         <swiper-slide>
-          <app-room-card [room]="room"></app-room-card>
+          <app-room-card (newRoomId)="testOutId($event)" [room]="room"></app-room-card>
         </swiper-slide>
         }
       </swiper-container>
@@ -16,8 +16,8 @@
   </div>
 </div>
 <div class="device__container">
-  @for(device of allDevices; track device.id){
-  <app-device-card [devices]="device"></app-device-card>
+  @for(devices of allDevices; track devices.id){
+  <app-device-card [devices]="devices"></app-device-card>
   }
 </div>
 <div>

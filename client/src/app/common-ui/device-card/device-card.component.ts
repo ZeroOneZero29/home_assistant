@@ -14,4 +14,8 @@ export class DeviceCardComponent {
   ngOnChanges() {
     console.log(this.devices);
   }
+
+  lg() {
+    console.log('dada test');
+  }
 }

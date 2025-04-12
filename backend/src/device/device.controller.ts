@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   InternalServerErrorException,
@@ -10,7 +11,7 @@ import {
 import { DeviceDto } from './device.dto';
 import { DeviceService } from './device.service';
 import { AccessTokenGuard } from 'src/guards/accessToken.guard';
-import { Request } from 'express';
+import { request, Request } from 'express';
 
 @Controller('device')
 export class DeviceController {
@@ -39,5 +40,13 @@ export class DeviceController {
     const accessToken = type === 'Bearer' ? token : undefined;
     const id = deviceDto.id;
     return this.deviceService.changeStateDevice(id, accessToken);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Post('/light-device')
+  public async changeStateLightDevice(@Body() deviceId: string[], @Req() request: Request) {
+    const [type, token]: any = request.headers.authorization?.split(' ');
+    const accessToken = type === 'Bearer' ? token : undefined;
+    return this.deviceService.changeLigthDevice(accessToken, deviceId);
   }
 }
