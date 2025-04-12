@@ -1,0 +1,30 @@
+:host {
+  display: grid;
+  grid-template-rows: 110px 200px 1fr;
+  background-size: 100%;
+  font-family: 'Lack Regular';
+  color: var(--text-color);
+  border-bottom: 2px var(--primary-color) solid;
+}
+
+.room__container {
+  padding-top: 15px;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+}
+.card__container {
+  //display: flex;
+  //gap: 60px;
+}
+.swiper-wrapper {
+  max-width: 1100px;
+}
+.room_title {
+  font-size: 36px;
+}
+.test {
+  width: 1400px;
+}

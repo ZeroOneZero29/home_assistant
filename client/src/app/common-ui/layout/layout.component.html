@@ -1,0 +1,28 @@
+<app-header-device [device]="devicesHeader"></app-header-device>
+<div>
+  <div class="room__container">
+    <h2 class="room_title">Комнаты</h2>
+
+    <div class="card__container">
+      <swiper-container class="swiper-wrapper" init="false">
+        @for(room of rooms; track room.id) {
+
+        <swiper-slide>
+          <app-room-card (newRoomId)="testOutId($event)" [room]="room"></app-room-card>
+        </swiper-slide>
+        }
+      </swiper-container>
+    </div>
+  </div>
+</div>
+@if(deviceFilterData){
+
+<div class="device__container">
+  @for(devices of deviceFilterData; track devices.id){
+  <app-device-card [devices]="devices" [rooms]="rooms"></app-device-card>
+  }
+</div>
+}
+<div>
+  <router-outlet></router-outlet>
+</div>

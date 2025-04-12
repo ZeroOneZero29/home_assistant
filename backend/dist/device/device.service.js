@@ -33,13 +33,13 @@ let DeviceService = class DeviceService {
     }
     async getInfoDevice(accessToken) {
         const oauthToken = await this.checkOauthToken(accessToken);
+        console.log(oauthToken);
         const configAxios = {
             method: 'get',
             headers: {
                 Authorization: `Bearer ${oauthToken}`,
             },
         };
-        console.log();
         const response = this.httpService.get('https://api.iot.yandex.net/v1.0/user/info', configAxios);
         return response
             .toPromise()
@@ -103,6 +103,7 @@ let DeviceService = class DeviceService {
                 },
             ],
         });
+        console.log(dataChangeStateDevice);
         const configAxiosChangeStateDevice = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -118,6 +119,44 @@ let DeviceService = class DeviceService {
             .toPromise();
         console.log(dataChangeStateDevice);
         return dataChangeStateDevice;
+    }
+    async changeLigthDevice(accessToken, idDevice) {
+        const oauthToken = await this.checkOauthToken(accessToken);
+        let deviceAll = [];
+        idDevice.forEach((idDevice) => {
+            let template = {
+                id: idDevice,
+                actions: [
+                    {
+                        type: 'devices.capabilities.on_off',
+                        state: {
+                            instance: 'on',
+                            value: false,
+                        },
+                    },
+                ],
+            };
+            deviceAll.push(template);
+        });
+        let addName = {
+            devices: deviceAll,
+        };
+        const dataId = JSON.stringify(addName);
+        const configAxiosChangeStateDevice = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://api.iot.yandex.net/v1.0/devices/actions',
+            headers: {
+                Authorization: `Bearer ${oauthToken}`,
+                'Content-Type': 'application/json',
+            },
+            data: dataId,
+        };
+        const changeStateDeviceRequst = await this.httpService
+            .request(configAxiosChangeStateDevice)
+            .subscribe((res) => {
+            console.log(res);
+        });
     }
 };
 exports.DeviceService = DeviceService;

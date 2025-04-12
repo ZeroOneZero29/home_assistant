@@ -64,7 +64,7 @@ export class AuthService {
 
   async pushOauthInDb(accessToken: string, oauthToken: string) {
     const infoInToken = this.jwtService.decode(accessToken);
-
+    console.log('test oauth');
     const user: User | null = await this.userService.findByEmail(infoInToken.sub);
     const email = infoInToken.sub;
     if (!user) {
@@ -100,7 +100,7 @@ export class AuthService {
 
     const accessToken: string = await this.jwtService.sign(payload, {
       secret: this.configService.get('secret_jwt'),
-      expiresIn: '30m',
+      expiresIn: '3d',
     });
 
     const refreshToken: string = await this.jwtService.sign(payload, {

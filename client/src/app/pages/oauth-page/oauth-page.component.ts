@@ -3,6 +3,7 @@ import { Component, ElementRef, inject, Renderer2 } from '@angular/core';
 import { YandexToken } from '../../data/interface/yandex.token.interface';
 import { Router } from '@angular/router';
 import { YandexService } from '../../data/service/yandex.service';
+import { OauthHandler } from '../../data/interface/yandex.oauth.interface';
 
 @Component({
   selector: 'app-oauth-page',
@@ -14,7 +15,6 @@ export class OauthPageComponent {
   constructor(private renderer: Renderer2) {}
   router = inject(Router);
   yandexService = inject(YandexService);
-
   addJsToElement(src: string): HTMLScriptElement {
     const script = document.createElement('script');
     script.type = 'text/javascript';
@@ -33,7 +33,7 @@ export class OauthPageComponent {
   }
   initializationYandex() {
     //@ts-ignore
-    const resultYandex = YaAuthSuggest.init(
+    let resultYandex = YaAuthSuggest.init(
       {
         client_id: 'cf61ec204d874551a1a812d166d421b7',
         response_type: 'token',
@@ -48,7 +48,7 @@ export class OauthPageComponent {
         buttonSize: 'm',
         buttonBorderRadius: 9,
       },
-    ).then(function (result: any) {
+    ).then(function (result: OauthHandler) {
       return result.handler();
     });
     resultYandex

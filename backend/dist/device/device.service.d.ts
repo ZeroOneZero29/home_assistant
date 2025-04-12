@@ -12,4 +12,5 @@ export declare class DeviceService {
     getInfoDevice(accessToken: string): Promise<any>;
     getInfoDeviceById(deviceDto: string, accessToken: string): Promise<any>;
     changeStateDevice(deviceDto: string, accessToken: string): Promise<string>;
+    changeLigthDevice(accessToken: string, idDevice: string[]): Promise<void>;
 }

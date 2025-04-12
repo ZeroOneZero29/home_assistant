@@ -25,15 +25,15 @@ export class DeviceService {
 
   async getInfoDevice(accessToken: string) {
     const oauthToken = await this.checkOauthToken(accessToken);
+    console.log(oauthToken);
     const configAxios = {
       method: 'get',
       headers: {
         Authorization: `Bearer ${oauthToken}`,
       },
     };
-    console.log();
-    const response = this.httpService.get('https://api.iot.yandex.net/v1.0/user/info', configAxios);
 
+    const response = this.httpService.get('https://api.iot.yandex.net/v1.0/user/info', configAxios);
     return response
       .toPromise()
       .then((res) => {
@@ -132,6 +132,7 @@ export class DeviceService {
         },
       ],
     });
+    console.log(dataChangeStateDevice);
     const configAxiosChangeStateDevice = {
       method: 'post',
       maxBodyLength: Infinity,
@@ -148,5 +149,49 @@ export class DeviceService {
       .toPromise();
     console.log(dataChangeStateDevice);
     return dataChangeStateDevice;
+  }
+
+  async changeLigthDevice(accessToken: string, idDevice: string[]) {
+    const oauthToken = await this.checkOauthToken(accessToken);
+    let deviceAll: object[] = [];
+    idDevice.forEach((idDevice) => {
+      let template = {
+        id: idDevice,
+        actions: [
+          {
+            type: 'devices.capabilities.on_off',
+            state: {
+              instance: 'on',
+              value: false,
+            },
+          },
+        ],
+      };
+      deviceAll.push(template);
+    });
+    let addName = {
+      devices: deviceAll,
+    };
+
+    const dataId = JSON.stringify(addName);
+    const configAxiosChangeStateDevice = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://api.iot.yandex.net/v1.0/devices/actions',
+      headers: {
+        Authorization: `Bearer ${oauthToken}`,
+        'Content-Type': 'application/json',
+      },
+      data: dataId,
+    };
+
+    const changeStateDeviceRequst = await this.httpService
+      .request(configAxiosChangeStateDevice)
+      .subscribe((res) => {
+        console.log(res);
+      });
+
+    //console.log(changeStateDeviceRequst);
+    //return changeStateDeviceRequst;
   }
 }

@@ -1,0 +1,58 @@
+@if (himidity) {
+<div class="header__container">
+  <div class="climate-container">
+    <svg class="icon__header_climate" icon="thermometer" height="60" width="24"></svg>
+    <div class="text-container">
+      <p class="himidity">{{ himidity }}%</p>
+      <p class="temperature">{{ temperature }}<sup>o</sup>C</p>
+    </div>
+  </div>
+
+  <div class="date-container">
+    <svg class="icon__header" icon="calendar" height="60" width="60"></svg>
+    <div class="text-container-date">
+      <p class="date">
+        {{ now | date : 'd MMM' }}
+      </p>
+      <p class="time">{{ now | date : 'HH' }}:{{ now | date : 'mm' }}</p>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <p class="ligth">Общий свет</p>
+
+    <label class="switch">
+      <input
+        type="checkbox"
+        id="toggle"
+        [class]="isStateToggle() ? 'input-toggle-checked' : 'input-toggle'"
+        (click)="changeAllLight()"
+        (click)="toggleChangeStatus()"
+      />
+      <span class="slider round"></span>
+    </label>
+  </div>
+</div>
+
+} @else {
+<div class="header__container_else">
+  <div class="date-container">
+    <svg class="icon__header" icon="calendar" height="60" width="60"></svg>
+    <div class="text-container-date">
+      <p class="date">
+        {{ now | date : 'd MMM' }}
+      </p>
+      <p class="time">{{ now | date : 'HH' }}:{{ now | date : 'mm' }}</p>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <p class="ligth">Общий свет</p>
+
+    <label class="switch">
+      <input type="checkbox" checked (click)="changeAllLight()" />
+      <span class="slider round"></span>
+    </label>
+  </div>
+</div>
+}
