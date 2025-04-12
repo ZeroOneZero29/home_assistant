@@ -34,7 +34,7 @@ export class DeviceController {
     return this.deviceService.getInfoDeviceById(id, accessToken);
   }
   @UseGuards(AccessTokenGuard)
-  @Post('/action')
+  @Get('/action')
   public async changeStateDevice(@Query() deviceDto: DeviceDto, @Req() request: Request) {
     const [type, token]: any = request.headers.authorization?.split(' ');
     const accessToken = type === 'Bearer' ? token : undefined;

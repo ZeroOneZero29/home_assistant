@@ -1,10 +1,39 @@
 .device-card__container {
-  width: 200px;
-  width: 200px;
+  display: flex;
+  background-color: var(--background-card-color);
+  width: 160px;
+  height: 150px;
+  position: relative;
+  border-radius: 14px;
+  padding: 15px;
+  font-family: 'Lack Regular';
 }
-.left_container {
+.text_container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.left__container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 .name_device {
 }
 .name_room {
+  font-size: 12px;
+}
+.button__container {
+  position: absolute;
+  right: 20px;
+  top: 12px;
+  background-color: rgba($color: #ffffff, $alpha: 0.3);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.device_img {
+  object-fit: contain;
+  max-width: 70px;
 }

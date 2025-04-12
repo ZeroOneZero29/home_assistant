@@ -64,7 +64,7 @@ __decorate([
 ], DeviceController.prototype, "getInfoDeviceId", null);
 __decorate([
     (0, common_1.UseGuards)(accessToken_guard_1.AccessTokenGuard),
-    (0, common_1.Post)('/action'),
+    (0, common_1.Get)('/action'),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),

@@ -102,6 +102,7 @@ export class DeviceService {
 
   async changeStateDevice(deviceDto: string, accessToken: string) {
     const oauthToken = await this.checkOauthToken(accessToken);
+    const idDevice = deviceDto;
     const configAxiosGetInfo = {
       method: 'get',
       headers: {
@@ -119,7 +120,7 @@ export class DeviceService {
     const dataChangeStateDevice = JSON.stringify({
       devices: [
         {
-          id: '66b1fe19-83e5-429a-9f77-bc4bd1d9f24a',
+          id: `${deviceDto}`,
           actions: [
             {
               type: 'devices.capabilities.on_off',

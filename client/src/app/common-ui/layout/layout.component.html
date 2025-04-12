@@ -18,9 +18,12 @@
 @if(deviceFilterData){
 
 <div class="device__container">
-  @for(devices of deviceFilterData; track devices.id){
-  <app-device-card [devices]="devices" [rooms]="rooms"></app-device-card>
-  }
+  <h2 class="device_title">Устройства</h2>
+  <div class="device-card__container">
+    @for(devices of deviceFilterData; track devices.id){
+    <app-device-card [devices]="devices" [rooms]="rooms"></app-device-card>
+    }
+  </div>
 </div>
 }
 <div>

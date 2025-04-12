@@ -28,3 +28,17 @@
 .test {
   width: 1400px;
 }
+
+.device_title {
+  font-size: 36px;
+}
+
+.device__container {
+  max-width: 1800px;
+  margin: 0 auto;
+}
+.device-card__container {
+  display: grid;
+  column-gap: 60px;
+  grid-template-columns: repeat(6, 1fr);
+}
