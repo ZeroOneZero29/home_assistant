@@ -4,6 +4,7 @@
   align-items: center;
   justify-self: center;
   gap: 10px;
+  cursor: pointer;
 }
 .img_rooms-container {
   display: flex;
@@ -16,4 +17,12 @@
 }
 .rooms_title {
   font-size: 20px;
+}
+
+.empty {
+  display: none;
+}
+
+.img_rooms-container:target {
+  box-shadow: 1px 2px red;
 }

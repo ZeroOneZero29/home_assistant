@@ -10,7 +10,7 @@ export class ImgRoomsPipe implements PipeTransform {
   }
 
   roomImgObj = new Map([
-    ['devices.types.light', 'kitchen'],
+    ['Кухня', 'kitchen'],
     ['Столовая ', 'kitchen'],
     ['Спальня', 'bedroom'],
     ['Балкон', 'balcony'],
@@ -22,5 +22,6 @@ export class ImgRoomsPipe implements PipeTransform {
     ['Холл', 'corridor'],
     ['Прихожая', 'corridor'],
     ['Туалет', 'washroom'],
+    ['Все', 'alldevice'],
   ]);
 }

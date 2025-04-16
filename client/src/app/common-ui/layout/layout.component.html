@@ -8,7 +8,7 @@
         @for(room of rooms; track room.id) {
 
         <swiper-slide>
-          <app-room-card (newRoomId)="testOutId($event)" [room]="room"></app-room-card>
+          <app-room-card [room]="room" (newRoomId)="testOutId($event)"></app-room-card>
         </swiper-slide>
         }
       </swiper-container>
@@ -17,11 +17,17 @@
 </div>
 @if(deviceFilterData){
 
-<div class="device__container">
+<div class="device__container" id="test">
   <h2 class="device_title">Устройства</h2>
   <div class="device-card__container">
     @for(devices of deviceFilterData; track devices.id){
-    <app-device-card [devices]="devices" [rooms]="rooms"></app-device-card>
+    <app-device-card
+      class="app-device-card"
+      [id]="devices.room"
+      [devices]="devices"
+      [rooms]="rooms"
+      [roomId]="roomId"
+    ></app-device-card>
     }
   </div>
 </div>
@@ -29,3 +35,4 @@
 <div>
   <router-outlet></router-outlet>
 </div>
+<picture></picture>

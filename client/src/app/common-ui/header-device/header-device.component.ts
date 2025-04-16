@@ -27,9 +27,11 @@ export class HeaderDeviceComponent {
 
   ngOnChanges() {
     const himidityArr = this.device!.filter((e) => e.type == 'devices.types.sensor.climate');
-    const himidityT = himidityArr[0].properties.filter((e) => e.state.instance == 'humidity');
+    const himidityT = himidityArr[0]?.properties.filter((e) => e.state.instance == 'humidity');
     this.himidity = Math.round(himidityT[0].state.value);
-    const temperatureT = himidityArr[0].properties.filter((e) => e.state.instance == 'temperature');
+    const temperatureT = himidityArr[0]?.properties.filter(
+      (e) => e.state.instance == 'temperature',
+    );
     const temperatureStr = temperatureT[0].state.value;
     this.temperature = String(temperatureStr).replace('.', ',');
   }
@@ -43,7 +45,7 @@ export class HeaderDeviceComponent {
           let el: Device[] = e.filter(
             (e: Device) => e.type === 'devices.types.socket' || e.type === 'devices.types.light',
           );
-          let off: Device[] = el.filter((e: Device) => e.capabilities[0].state.value === true);
+          let off: Device[] = el.filter((e: Device) => e?.capabilities[0].state.value === true);
           return off.map((e) => e.id);
         }),
       )

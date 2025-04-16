@@ -1,6 +1,6 @@
 @if(devices) {
 
-<section class="device-card__container">
+<section class="device-card__container_item">
   <div class="left__container">
     <img class="device_img" [src]="devices.type | imgDevice" alt="" />
     <section class="text_container">
@@ -8,7 +8,11 @@
       <p class="name_room">{{ nameRoomDevice }}</p>
     </section>
   </div>
-  <div class="button__container" (click)="changeActionDevice()">
+  <div
+    class="button__container"
+    (click)="changeActionDevice()"
+    [class]="isOnOffActions() ? 'rooms_container' : 'empty'"
+  >
     <div class="on-off__container">
       <svg icon="on-off" height="16" width="16"></svg>
     </div>

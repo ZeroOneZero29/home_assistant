@@ -50,7 +50,13 @@
     <p class="ligth">Общий свет</p>
 
     <label class="switch">
-      <input type="checkbox" checked (click)="changeAllLight()" />
+      <input
+        type="checkbox"
+        id="toggle"
+        [class]="isStateToggle() ? 'input-toggle-checked' : 'input-toggle'"
+        (click)="changeAllLight()"
+        (click)="toggleChangeStatus()"
+      />
       <span class="slider round"></span>
     </label>
   </div>

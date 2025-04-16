@@ -1,4 +1,4 @@
-.device-card__container {
+.device-card__container_item {
   display: flex;
   background-color: var(--background-card-color);
   width: 160px;
@@ -36,4 +36,7 @@
 .device_img {
   object-fit: contain;
   max-width: 70px;
+}
+.empty {
+  display: none;
 }

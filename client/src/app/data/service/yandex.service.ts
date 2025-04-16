@@ -12,6 +12,6 @@ export class YandexService {
     console.log(res.access_token);
     const postToken = { oauthToken: res.access_token };
     console.log(postToken);
-    return this.http.post(`http://localhost:3000/api/auth/oauth`, postToken).subscribe();
+    return this.http.patch(`http://localhost:3000/api/auth/oauth`, postToken).subscribe();
   }
 }

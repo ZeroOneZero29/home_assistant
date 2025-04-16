@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { DeviceService } from '../../data/service/device.service';
 import { AllDevice, Device, Rooms } from '../../data/interface/device.interface';
@@ -25,14 +25,8 @@ export class LayoutComponent {
       this.deviceData = res.devices;
       this.deviceFilterData = res.devices;
       console.log(this.devicesHeader);
-      const j = [{ id: '132', name: 'Гостинная', devices: ['122'] }];
-      const r = [{ id: '1312', name: 'Гостинная', devices: ['122'] }];
-      const p = [{ id: '1352', name: 'Гостинная', devices: ['122'] }];
-      const c = [{ id: '1632', name: 'Гостинная', devices: ['122'] }];
-      const od = [{ id: '17132', name: 'Гостинная', devices: ['122'] }];
-      const of = [{ id: '17342', name: 'Гостинная', devices: ['122'] }];
-      const ofg = [{ id: '17312', name: 'Гостинная', devices: ['122'] }];
-      this.rooms = res.rooms.concat(j, p, r, c, od, of, ofg);
+      let j: Rooms[] = [{ id: 'all', name: 'Все', devices: [''] }];
+      this.rooms = j.concat(res.rooms).filter((el) => el.devices.length > 0);
     });
     //console.log(this.rooms);
 
@@ -64,9 +58,29 @@ export class LayoutComponent {
     swiperEl.initialize();
     console.log(this.deviceFilterData);
   }
-
+  roomId = '';
+  deviceStatusRender = signal<boolean>(false);
   deviceFilterData: Device[] | null = null;
   testOutId(idRoom: string) {
-    this.deviceFilterData = this.deviceData!.filter((el) => el.room === idRoom);
+    this.roomId = idRoom;
+    let arEl = [];
+    let t = <HTMLCollection>document.getElementsByClassName('app-device-card');
+    console.log(t);
+    for (let item of t) {
+      const idInElement = item.getAttribute('id');
+      if (idInElement === idRoom) {
+        //@ts-ignore
+        item.style = 'display : block';
+      } else if (idRoom === 'all') {
+        //@ts-ignore
+        item.style = 'display : block';
+      } else {
+        //@ts-ignore
+        item.style = 'display : none';
+        console.log(item);
+      }
+    }
+    //let a = <HTMLCollection>document.getElementsByTagName('app-room-card');
+    //console.log(a);
   }
 }

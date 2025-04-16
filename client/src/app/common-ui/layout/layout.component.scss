@@ -40,5 +40,20 @@
 .device-card__container {
   display: grid;
   column-gap: 60px;
+  row-gap: 20px;
   grid-template-columns: repeat(6, 1fr);
+  overflow-y: auto;
+  height: 300px;
+}
+.device-card__container::-webkit-scrollbar {
+  width: 12px;
+  background-color: grey;
+  color: red;
+}
+
+.block {
+  display: block;
+}
+.empty {
+  display: none;
 }
