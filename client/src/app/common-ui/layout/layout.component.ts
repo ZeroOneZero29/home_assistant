@@ -63,10 +63,18 @@ export class LayoutComponent {
   deviceFilterData: Device[] | null = null;
   testOutId(idRoom: string) {
     this.roomId = idRoom;
-    let arEl = [];
-    let t = <HTMLCollection>document.getElementsByClassName('app-device-card');
-    console.log(t);
-    for (let item of t) {
+    let arrayDeviceCards = <HTMLCollection>document.getElementsByClassName('app-device-card');
+    let arrayRooms = <HTMLCollection>document.getElementsByTagName('app-room-card');
+    console.log(arrayRooms);
+    for (let room of arrayRooms) {
+      const idInElement = room.getAttribute('id');
+      console.log(idInElement, room);
+      if (idInElement === idRoom) {
+        //@ts-ignore
+        room.children[0].style = 'background-color:red ';
+      }
+    }
+    for (let item of arrayDeviceCards) {
       const idInElement = item.getAttribute('id');
       if (idInElement === idRoom) {
         //@ts-ignore
@@ -77,10 +85,7 @@ export class LayoutComponent {
       } else {
         //@ts-ignore
         item.style = 'display : none';
-        console.log(item);
       }
     }
-    //let a = <HTMLCollection>document.getElementsByTagName('app-room-card');
-    //console.log(a);
   }
 }

@@ -26,14 +26,16 @@ export class HeaderDeviceComponent {
   temperature: string | null = null;
 
   ngOnChanges() {
-    const himidityArr = this.device!.filter((e) => e.type == 'devices.types.sensor.climate');
-    const himidityT = himidityArr[0]?.properties.filter((e) => e.state.instance == 'humidity');
-    this.himidity = Math.round(himidityT[0].state.value);
-    const temperatureT = himidityArr[0]?.properties.filter(
-      (e) => e.state.instance == 'temperature',
-    );
-    const temperatureStr = temperatureT[0].state.value;
-    this.temperature = String(temperatureStr).replace('.', ',');
+    if (this.device) {
+      const himidityArr = this.device!.filter((e) => e.type == 'devices.types.sensor.climate');
+      const himidityT = himidityArr[0]?.properties.filter((e) => e.state.instance == 'humidity');
+      this.himidity = Math.round(himidityT[0].state.value);
+      const temperatureT = himidityArr[0]?.properties.filter(
+        (e) => e.state.instance == 'temperature',
+      );
+      const temperatureStr = temperatureT[0].state.value;
+      this.temperature = String(temperatureStr).replace('.', ',');
+    }
   }
 
   changeAllLight() {

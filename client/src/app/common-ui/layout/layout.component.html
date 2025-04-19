@@ -8,7 +8,11 @@
         @for(room of rooms; track room.id) {
 
         <swiper-slide>
-          <app-room-card [room]="room" (newRoomId)="testOutId($event)"></app-room-card>
+          <app-room-card
+            [id]="room.id"
+            [room]="room"
+            (newRoomId)="testOutId($event)"
+          ></app-room-card>
         </swiper-slide>
         }
       </swiper-container>
@@ -35,4 +39,3 @@
 <div>
   <router-outlet></router-outlet>
 </div>
-<picture></picture>
