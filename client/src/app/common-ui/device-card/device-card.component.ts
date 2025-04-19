@@ -7,6 +7,7 @@ import { ImgDeviceOffPipe } from '../../helpers/img-device-off.pipe';
 
 @Component({
   selector: 'app-device-card',
+
   imports: [ImgDevicePipe, SvgIconComponent, ImgDeviceOffPipe],
   templateUrl: './device-card.component.html',
   styleUrl: './device-card.component.scss',
