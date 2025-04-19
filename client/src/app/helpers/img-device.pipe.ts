@@ -64,7 +64,7 @@ export class ImgDevicePipe implements PipeTransform {
     [`devices.types.light.strip`, `${this.basePath}electrics/light-strip/strip.png`],
     [`devices.types.switch.relay`, `${this.basePath}electrics/switch-relay/relay.png`],
 
-    [`devices.types.humidifier`, `${this.basePath}climate/humidifier/humidifier-off.png`],
+    [`devices.types.humidifier`, `${this.basePath}climate/humidifier/humidifier.png`],
     [`devices.types.thermostat`, `${this.basePath}climate/thermostat/thermostat.png`],
     [`devices.types.thermostat.ac`, `${this.basePath}climate/thermostat-ac/thermostat-ac.png`],
     [`devices.types.purifier`, `${this.basePath}climate/purifier/purifier.png`],
@@ -84,7 +84,7 @@ export class ImgDevicePipe implements PipeTransform {
     [`devices.types.media_device`, `${this.basePath}media/media-device/media-device.png`],
     [
       `devices.types.media_device.tv`,
-      `${this.basePath}media/media-device-tv/media-device-tv-off.png`,
+      `${this.basePath}media/media-device-tv/media-device-tv-on.png`,
     ],
 
     [`devices.types.smart_meter`, `${this.basePath}counters/smart-meter/smart-meter.png`],
@@ -111,7 +111,7 @@ export class ImgDevicePipe implements PipeTransform {
 
     [`devices.types.cooking`, `${this.basePath}cooking/cooking/cooking.png`],
     [`devices.types.cooking.kettle`, `${this.basePath}cooking/cooking-kettle/cooking-kettle.png`],
-    [`devices.types.dishwasher`, `${this.basePath}cooking/dishwasher/dishwasher-off.png`],
+    [`devices.types.dishwasher`, `${this.basePath}cooking/dishwasher/dishwasher.png`],
     [
       `devices.types.cooking.coffee_maker`,
       `${this.basePath}cooking/coffee-maker/cooking-coffee-maker.png`,
