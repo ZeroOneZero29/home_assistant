@@ -6,8 +6,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ImgDevicePipe implements PipeTransform {
   transform(value: string): string {
     //@ts-ignore
-    return this.roomImgObj.get(value);
+    return this.deviceImgObj.get(value);
   }
 
-  roomImgObj = new Map([['devices.types.light', '/assets/img/devices/lamp/light.png']]);
+  deviceImgObj = new Map([
+    ['devices.types.socket', '/assets/img/devices/socket/socket.png'],
+    ['devices.types.light', '/assets/img/devices/lamp/light.png'],
+    [
+      'devices.types.media_device.tv',
+      '/assets/img/devices/media-device-tv/media-device-tv-off.png',
+    ],
+    ['devices.types.sensor.climate', '/assets/img/devices/sensor-climate.png'],
+  ]);
 }
