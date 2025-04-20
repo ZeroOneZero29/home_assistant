@@ -12,7 +12,7 @@ export class AuthService {
   http: HttpClient = inject(HttpClient);
   cookieService: CookieService = inject(CookieService);
   router: Router = inject(Router);
-  baseUrl: string = 'http://localhost:3000/api/auth/';
+  baseUrl: string = 'https://192.168.0.163:3000/api/auth/';
 
   accessToken: string | null = null;
   refreshToken: string | null = null;

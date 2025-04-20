@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class DeviceService {
   http: HttpClient = inject(HttpClient);
   router: Router = inject(Router);
-  baseUrl = 'http://localhost:3000/api/device/';
+  baseUrl = 'https://192.168.0.163:3000/api/device/';
   getAllDevice() {
     return this.http.get<AllDevice>(`${this.baseUrl}info`).pipe(
       //@ts-ignore
