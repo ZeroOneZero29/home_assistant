@@ -37,9 +37,9 @@ export class OauthPageComponent {
       {
         client_id: 'cf61ec204d874551a1a812d166d421b7',
         response_type: 'token',
-        redirect_uri: 'https://192.168.0.163:4200/oauth-redirect',
+        redirect_uri: 'https://192.168.0.177:4200/oauth-redirect',
       },
-      'https://192.168.0.163:4200/oauth-redirect',
+      'https://192.168.0.177:4200/oauth-redirect',
       {
         view: 'button',
         parentId: 'container-link',
@@ -69,9 +69,9 @@ export class OauthPageComponent {
   //      {
   //        client_id: 'cf61ec204d874551a1a812d166d421b7',
   //        response_type: 'token',
-  //        redirect_uri: 'https://192.168.0.163:4200/oauth-redirect',
+  //        redirect_uri: 'https://192.168.0.177:4200/oauth-redirect',
   //      },
-  //      'https://192.168.0.163:4200/oauth-redirect',
+  //      'https://192.168.0.177:4200/oauth-redirect',
   //      {
   //        view: 'button',
   //        parentId: 'container-link',

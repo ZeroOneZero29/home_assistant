@@ -17,7 +17,7 @@ export class DeviceCardComponent {
   @Input() devices!: Device;
   @Input() rooms!: Rooms[];
   @Input() roomId!: string;
-  baseUrl: string = 'https://192.168.0.163:3000/api/device/action?id=';
+  baseUrl: string = 'https://192.168.0.177:3000/api/device/action?id=';
   nameRoomDevice: string = '';
   isCurrentState = signal<boolean>(false);
   isOnOffActions = signal<boolean>(false);
@@ -33,7 +33,6 @@ export class DeviceCardComponent {
     const checkCapabilitiesDevice = this.devices.capabilities.filter(
       (el) => el.type == 'devices.capabilities.on_off',
     );
-    console.log(checkCapabilitiesDevice);
     if (checkCapabilitiesDevice[0]?.state?.instance === 'on') {
       this.isOnOffActions.set(true);
       this.isCurrentState.set(checkCapabilitiesDevice[0].state.value);
@@ -56,7 +55,6 @@ export class DeviceCardComponent {
         this.srcImgDevice = this.deviceOffPipe.transform(this.devices.type);
       }
     }, 200);
-    console.log(this.srcImgDevice);
   }
   changeShadowDevice() {
     this.isCurrentState.set(this.devices?.capabilities[0]?.state?.value);

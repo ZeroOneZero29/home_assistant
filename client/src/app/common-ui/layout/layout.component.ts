@@ -61,17 +61,21 @@ export class LayoutComponent {
   roomId = '';
   deviceStatusRender = signal<boolean>(false);
   deviceFilterData: Device[] | null = null;
-  testOutId(idRoom: string) {
+
+  BoxShadowOutId(idRoom: string) {
     this.roomId = idRoom;
     let arrayDeviceCards = <HTMLCollection>document.getElementsByClassName('app-device-card');
     let arrayRooms = <HTMLCollection>document.getElementsByTagName('app-room-card');
-    console.log(arrayRooms);
+
     for (let room of arrayRooms) {
       const idInElement = room.getAttribute('id');
-      console.log(idInElement, room);
+
+      //@ts-ignore
+      room.children[0].firstElementChild.style = 'box-shadow: none';
       if (idInElement === idRoom) {
         //@ts-ignore
-        room.children[0].style = 'background-color:red ';
+        room.children[0].firstElementChild.style =
+          '-webkit-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); -moz-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1)';
       }
     }
     for (let item of arrayDeviceCards) {

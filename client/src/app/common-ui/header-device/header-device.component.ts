@@ -45,7 +45,10 @@ export class HeaderDeviceComponent {
         map((e) => e.devices),
         map((e) => {
           let el: Device[] = e.filter(
-            (e: Device) => e.type === 'devices.types.socket' || e.type === 'devices.types.light',
+            (e: Device) =>
+              e.type === 'devices.types.socket' ||
+              e.type === 'devices.types.light' ||
+              e.type === 'devices.types.switch',
           );
           let off: Device[] = el.filter((e: Device) => e?.capabilities[0].state.value === true);
           return off.map((e) => e.id);
@@ -53,6 +56,7 @@ export class HeaderDeviceComponent {
       )
       .subscribe((res: string[]) => {
         if (res.length > 0) {
+          console.log(res);
           this.deviceService.changeAllLightDevice(res);
         }
       });
