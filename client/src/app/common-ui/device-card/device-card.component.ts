@@ -47,7 +47,7 @@ export class DeviceCardComponent {
     }
   }
 
-  changeImg() {
+  replaceImg() {
     setTimeout(() => {
       if (this.isCurrentState()) {
         this.srcImgDevice = this.devicePipe.transform(this.devices.type);

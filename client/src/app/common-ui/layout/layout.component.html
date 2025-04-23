@@ -11,7 +11,7 @@
           <app-room-card
             [id]="room.id"
             [room]="room"
-            (newRoomId)="BoxShadowOutId($event)"
+            (newRoomId)="BoxShadowRoomDeviceActive($event)"
           ></app-room-card>
         </swiper-slide>
         }
@@ -21,7 +21,7 @@
 </div>
 @if(deviceFilterData){
 
-<div class="device__container" id="test">
+<div class="device__container">
   <h2 class="device_title">Устройства</h2>
   <div class="device-card__container">
     @for(devices of deviceFilterData; track devices.id){

@@ -25,13 +25,24 @@ export class RoomCardComponent {
   }
 
   initialBoxShadow() {
+    let viewPort = window.screen.width;
     let arrayRoomsAll = <HTMLCollection>document.getElementsByTagName('app-room-card');
-    for (let room of arrayRoomsAll) {
-      const idInElementAll = room.getAttribute('id');
-      if (idInElementAll === 'all') {
-        //@ts-ignore
-        room.children[0].firstElementChild.style =
-          '-webkit-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); -moz-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1)';
+    if (viewPort > 425) {
+      for (let room of arrayRoomsAll) {
+        const idInElementAll = room.getAttribute('id');
+        if (idInElementAll === 'all') {
+          //@ts-ignore
+          room.children[0].firstElementChild.style =
+            '-webkit-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); -moz-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1)';
+        }
+      }
+    } else {
+      for (let room of arrayRoomsAll) {
+        const idInElementAll = room.getAttribute('id');
+        if (idInElementAll === 'all') {
+          //@ts-ignore
+          room.children[0].lastElementChild.style = '  opacity: 0.5';
+        }
       }
     }
   }

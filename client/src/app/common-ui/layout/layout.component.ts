@@ -62,20 +62,31 @@ export class LayoutComponent {
   deviceStatusRender = signal<boolean>(false);
   deviceFilterData: Device[] | null = null;
 
-  BoxShadowOutId(idRoom: string) {
+  BoxShadowRoomDeviceActive(idRoom: string) {
+    let viewPort = window.screen.width;
+    console.log(viewPort);
     this.roomId = idRoom;
     let arrayDeviceCards = <HTMLCollection>document.getElementsByClassName('app-device-card');
     let arrayRooms = <HTMLCollection>document.getElementsByTagName('app-room-card');
 
     for (let room of arrayRooms) {
       const idInElement = room.getAttribute('id');
-
-      //@ts-ignore
-      room.children[0].firstElementChild.style = 'box-shadow: none';
-      if (idInElement === idRoom) {
+      if (viewPort > 625) {
         //@ts-ignore
-        room.children[0].firstElementChild.style =
-          '-webkit-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); -moz-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1)';
+        room.children[0].firstElementChild.style = 'box-shadow: none';
+        if (idInElement === idRoom) {
+          //@ts-ignore
+          room.children[0].firstElementChild.style =
+            '-webkit-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); -moz-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1)';
+        }
+      } else {
+        //@ts-ignore
+        room.children[0].lastElementChild.style = 'box-shadow: none';
+        if (idInElement === idRoom) {
+          //@ts-ignore
+          room.children[0].lastElementChild.style =
+            '-webkit-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); -moz-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1)';
+        }
       }
     }
     for (let item of arrayDeviceCards) {
