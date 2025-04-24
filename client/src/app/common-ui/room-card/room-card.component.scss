@@ -19,12 +19,15 @@
 }
 .rooms_title {
   font-size: 20px;
+  transition: all 300ms;
 }
 
 .empty {
   display: none;
 }
 
-.img_rooms-container:target {
-  box-shadow: 1px 2px red;
+@media (width < 425px) {
+  .img_rooms-container {
+    display: none;
+  }
 }

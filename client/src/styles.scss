@@ -98,8 +98,10 @@ h6 {
 
 body {
   background-image: url(../public/assets/img/bg_pc.jpg);
+  background-color: var(--background-color);
   background-size: cover;
   background-position: center center;
+  background-repeat: no-repeat;
   margin: 0px;
   min-height: 100%;
   width: 100%;

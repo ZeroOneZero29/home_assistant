@@ -33,10 +33,11 @@ export class LayoutComponent {
     const swiperEl = document.querySelector('swiper-container')!;
     const swiperParams: SwiperOptions = {
       slidesPerView: 3,
-      spaceBetween: 80,
+      spaceBetween: 40,
       breakpoints: {
         640: {
           slidesPerView: 4,
+          spaceBetween: 80,
         },
         1024: {
           slidesPerView: 5,
@@ -84,8 +85,7 @@ export class LayoutComponent {
         room.children[0].lastElementChild.style = 'box-shadow: none';
         if (idInElement === idRoom) {
           //@ts-ignore
-          room.children[0].lastElementChild.style =
-            '-webkit-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); -moz-box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1); box-shadow: 0px 0px 8px 2px rgba(255, 177, 103, 1)';
+          room.children[0].lastElementChild.style = 'opacity: 0.5';
         }
       }
     }
