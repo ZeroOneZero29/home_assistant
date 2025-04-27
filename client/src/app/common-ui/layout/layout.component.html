@@ -1,42 +1,40 @@
 <app-header-device [device]="devicesHeader"></app-header-device>
+<div class="content__container_layout">
+  <div class="room__container">
+    <h2 class="room_title">Комнаты</h2>
+    <div class="card__container">
+      <swiper-container class="swiper-wrapper" init="false">
+        @for(room of rooms; track room.id) {
 
-<div class="room__container">
-  <h2 class="room_title">Комнаты</h2>
-
-  <div class="card__container">
-    <swiper-container class="swiper-wrapper" init="false">
-      @for(room of rooms; track room.id) {
-
-      <swiper-slide class="swiper-slide">
-        <app-room-card
-          [id]="room.id"
-          [room]="room"
-          (newRoomId)="BoxShadowRoomDeviceActive($event)"
-        ></app-room-card>
-      </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <app-room-card
+            [id]="room.id"
+            [room]="room"
+            (newRoomId)="BoxShadowRoomDeviceActive($event)"
+          ></app-room-card>
+        </swiper-slide>
+        }
+      </swiper-container>
+    </div>
+  </div>
+  @if (deviceData) {
+  <div class="device__container">
+    <h2 class="device_title">Устройства</h2>
+    <div class="device-card__container">
+      @for(devices of deviceFilterData; track devices.id){
+      <app-device-card
+        class="app-device-card"
+        [id]="devices.room"
+        [devices]="devices"
+        [rooms]="rooms"
+        [roomId]="roomId"
+      ></app-device-card>
       }
-    </swiper-container>
+    </div>
   </div>
-  <hr class="line-room" />
-</div>
 
-@if(deviceFilterData){
-
-<div class="device__container">
-  <h2 class="device_title">Устройства</h2>
-  <div class="device-card__container">
-    @for(devices of deviceFilterData; track devices.id){
-    <app-device-card
-      class="app-device-card"
-      [id]="devices.room"
-      [devices]="devices"
-      [rooms]="rooms"
-      [roomId]="roomId"
-    ></app-device-card>
-    }
-  </div>
+  }
 </div>
-}
 <div>
   <router-outlet></router-outlet>
 </div>

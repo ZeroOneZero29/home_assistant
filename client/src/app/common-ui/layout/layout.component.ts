@@ -85,7 +85,7 @@ export class LayoutComponent {
         room.children[0].lastElementChild.style = 'box-shadow: none';
         if (idInElement === idRoom) {
           //@ts-ignore
-          room.children[0].lastElementChild.style = 'opacity: 0.5';
+          room.children[0].lastElementChild.style = 'color: white';
         }
       }
     }

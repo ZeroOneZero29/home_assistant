@@ -98,12 +98,13 @@ h6 {
 
 body {
   background-image: url(../public/assets/img/bg_pc.jpg);
-  background-color: var(--background-color);
   background-size: cover;
+  background-color: var(--background-color);
   background-position: center center;
   background-repeat: no-repeat;
-  margin: 0px;
+  margin: 0px auto;
   min-height: 100%;
+
   width: 100%;
   @media (width < 768px) {
     background-image: url(../public/assets/img/bg_tablet.jpg);
@@ -117,4 +118,9 @@ html {
   margin: 0px;
   height: 100%;
   width: 100%;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  height: 8px;
+  border-radius: 15px;
+  background: grey;
 }

@@ -13,6 +13,7 @@ export class OauthPageRedirectComponent {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = src;
+
     this.renderer.appendChild(document.body, script);
     return script;
   }
@@ -26,7 +27,7 @@ export class OauthPageRedirectComponent {
 
     window.onload = function () {
       //@ts-ignore
-      window.YaSendSuggestToken('https://192.168.0.177:4200/oauth', {
+      window.YaSendSuggestToken('https://192.168.0.163:4200/oauth', {
         kek: true,
       });
     };

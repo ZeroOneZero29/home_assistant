@@ -41,7 +41,7 @@ export class RoomCardComponent {
         const idInElementAll = room.getAttribute('id');
         if (idInElementAll === 'all') {
           //@ts-ignore
-          room.children[0].lastElementChild.style = '  opacity: 0.5';
+          room.children[0].lastElementChild.style = '  color: white';
         }
       }
     }

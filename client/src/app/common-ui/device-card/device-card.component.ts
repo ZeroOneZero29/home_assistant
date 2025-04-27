@@ -17,7 +17,7 @@ export class DeviceCardComponent {
   @Input() devices!: Device;
   @Input() rooms!: Rooms[];
   @Input() roomId!: string;
-  baseUrl: string = 'https://192.168.0.177:3000/api/device/action?id=';
+  baseUrl: string = 'https://192.168.0.163:3000/api/device/action?id=';
   nameRoomDevice: string = '';
   isCurrentState = signal<boolean>(false);
   isOnOffActions = signal<boolean>(false);
