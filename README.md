@@ -3,7 +3,7 @@
 <h3>Схема приложения:</h3>
 <img src="https://github.com/user-attachments/assets/6adbab34-7dfa-411c-9409-19c0e55d5345">
 
-<h4>Функционал приложения:</h4>
+<h3>Функционал приложения:</h4>
 
 <img src="https://github.com/user-attachments/assets/93833eda-39f6-4af2-935e-58268e94bd9e" width=500>
 <img src="https://github.com/user-attachments/assets/b63074b6-2cd6-47e2-b584-34b058d67de1" width=500>
