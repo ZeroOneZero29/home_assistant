@@ -3,8 +3,9 @@ import { AuthService } from './auth.service';
 import { UserLoginDto, UserRegDto, UserTokenDto } from 'src/user/user.dto';
 import { AccessTokenGuard } from 'src/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/guards/refreshToken.guard';
-import { Response, Request } from 'express';
+import { Request } from 'express';
 import { RefreshTokenStrategy } from './strategy/refresh.token.strategy';
+import { OauthToken } from './user-jwt.interfase';
 
 interface Tokens {
   accessToken: string;
@@ -30,20 +31,25 @@ export class AuthController {
   @Post('reg')
   public async singUp(@Body() userRegDto: UserRegDto) {
     console.log(userRegDto);
+    console.log('dada');
     return this.authService.logUp(userRegDto);
   }
 
   @Post('login')
   public async singIn(@Body() userLoginDto: UserLoginDto): Promise<Tokens> {
-    console.log(userLoginDto);
     return this.authService.logIn(userLoginDto);
   }
 
-  @Get('oauth')
-  public async getYandexToken(@Query() oauth: string) {}
+  @UseGuards(AccessTokenGuard)
+  @Post('oauth')
+  public async getYandexToken(@Body() oauthToken: OauthToken, @Req() request: Request) {
+    const [type, token]: any = request.headers.authorization?.split(' ');
+    const accessToken = type === 'Bearer' ? token : undefined;
+    return await this.authService.pushOauthInDb(accessToken, oauthToken.oauthToken);
+  }
 
   @UseGuards(RefreshTokenGuard)
-  @Get('/refreshs')
+  @Get('/refresh')
   public async refreshTokensAccess(@Req() request: Request): Promise<TokensAcceess> {
     const [type, token]: any = request.headers.authorization?.split(' ');
     const refreshTokens = type === 'Bearer' ? token : undefined;

@@ -12,13 +12,16 @@ const device_service_1 = require("./device.service");
 const device_controller_1 = require("./device.controller");
 const axios_1 = require("@nestjs/axios");
 const config_1 = require("@nestjs/config");
+const user_service_1 = require("../user/user.service");
+const user_entity_1 = require("../entity/user.entity");
+const typeorm_1 = require("@nestjs/typeorm");
 let DeviceModule = class DeviceModule {
 };
 exports.DeviceModule = DeviceModule;
 exports.DeviceModule = DeviceModule = __decorate([
     (0, common_1.Module)({
-        imports: [axios_1.HttpModule, config_1.ConfigModule],
-        providers: [device_service_1.DeviceService],
+        imports: [axios_1.HttpModule, config_1.ConfigModule, typeorm_1.TypeOrmModule.forFeature([user_entity_1.User])],
+        providers: [device_service_1.DeviceService, user_service_1.UserService],
         controllers: [device_controller_1.DeviceController],
     })
 ], DeviceModule);

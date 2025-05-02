@@ -37,10 +37,16 @@ let UserService = class UserService {
         const userUpadeToken = await this.userRepository.save({ ...user, refreshToken: refreshToken });
         return userUpadeToken;
     }
+    async updateOauthToken(oauthTokenDto) {
+        const { email, oauthToken } = oauthTokenDto;
+        console.log(oauthToken, '123');
+        const user = await this.userRepository.findOneBy({ email });
+        const userOauthUpdate = await this.userRepository.save({ ...user, oauthToken: oauthToken });
+        return userOauthUpdate;
+    }
     async updateTokensRefresh(userTokenDto) {
         const { email, refreshToken } = userTokenDto;
         const user = await this.userRepository.findOneBy({ email });
-        console.log(refreshToken);
         const userUpadeToken = await this.userRepository.save({ ...user, refreshToken: refreshToken });
         return userUpadeToken;
     }

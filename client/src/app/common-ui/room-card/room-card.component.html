@@ -1,0 +1,8 @@
+@if(room) {
+<div class="rooms_container" (click)="returnIdRoom()">
+  <div class="img_rooms-container">
+    <svg [icon]="room.name | imgRooms" alt="" height="50" width="50"></svg>
+  </div>
+  <h3 class="rooms_title">{{ room.name }}</h3>
+</div>
+}

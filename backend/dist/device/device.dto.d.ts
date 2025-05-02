@@ -1,3 +1,3 @@
 export declare class DeviceDto {
-    deviceID: number;
+    id: string;
 }

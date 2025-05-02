@@ -4,3 +4,7 @@ export interface UserJwtResponse {
   user: UserLoginDto;
   accessToken: string;
 }
+
+export interface OauthToken {
+  oauthToken: string;
+}

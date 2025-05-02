@@ -1,10 +1,10 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { CreateTokenDto, UserLoginDto, UserRegDto, UserTokenDto } from 'src/user/user.dto';
+import { CreateTokenDto, UserLoginDto, UserRegDto } from 'src/user/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserService } from 'src/user/user.service';
-import { RefreshTokenStrategy } from './strategy/refresh.token.strategy';
+import { User } from 'src/entity/user.entity';
 interface Tokens {
   accessToken: string;
   refreshToken: string;
@@ -41,11 +41,11 @@ export class AuthService {
     const { password, email } = userLoginDto;
     const checkedUser = await this.userService.findByEmail(email);
     if (!checkedUser) {
-      throw new NotFoundException(`Пользователь с данным ${email} не найден!`);
+      throw new UnauthorizedException(`Пользователь с данным ${email} не найден!`);
     }
     const passwordVerified = await bcrypt.compare(password, checkedUser.password);
     if (!passwordVerified) {
-      throw new NotFoundException(`Пароль для пользователя ${email} не верный!`);
+      throw new UnauthorizedException(`Пароль для пользователя ${email} не верный!`);
     }
     const payloadTokens = {
       email: checkedUser.email,
@@ -62,31 +62,45 @@ export class AuthService {
     return tokens;
   }
 
+  async pushOauthInDb(accessToken: string, oauthToken: string) {
+    const infoInToken = this.jwtService.decode(accessToken);
+    console.log('test oauth');
+    const user: User | null = await this.userService.findByEmail(infoInToken.sub);
+    const email = infoInToken.sub;
+    if (!user) {
+      throw new UnauthorizedException(`Пользователь с данным ${email} не найден!`);
+    }
+    const oauthData = {
+      oauthToken,
+      email: email,
+    };
+    return await this.userService.updateOauthToken(oauthData);
+  }
   async updateAccessTokens(refreshToken: string): Promise<any> {
     const infoInToken = this.jwtService.decode(refreshToken);
     const payload = {
-      sub: infoInToken.sub,
+      email: infoInToken.sub,
       id: infoInToken.id,
     };
-    const tokenAcceess = await this.genTokensAcceess(payload);
+    const tokenAcceess = await this.genTokens(payload);
     return tokenAcceess;
   }
 
-  async genTokensAcceess(userInfo: object): Promise<TokensAcceess> {
-    const payload: object = userInfo;
-    const accessToken: string = this.jwtService.sign(payload, {
-      secret: this.configService.get('secret_jwt'),
-      expiresIn: '1m',
-    });
-    return { accessToken };
-  }
+  //async genTokensAcceess(userInfo: object): Promise<TokensAcceess> {
+  //  const payload: object = userInfo;
+  //  const accessToken: string = this.jwtService.sign(payload, {
+  //    secret: this.configService.get('secret_jwt'),
+  //    expiresIn: '30s',
+  //  });
+  //  return { accessToken };
+  //}
 
   async genTokens(user: CreateTokenDto): Promise<Tokens> {
     const payload: object = { sub: user.email, id: user.id };
 
     const accessToken: string = await this.jwtService.sign(payload, {
       secret: this.configService.get('secret_jwt'),
-      expiresIn: '1m',
+      expiresIn: '3d',
     });
 
     const refreshToken: string = await this.jwtService.sign(payload, {

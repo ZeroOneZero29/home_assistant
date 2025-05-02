@@ -1,0 +1,24 @@
+@if(devices) {
+
+<section class="device-card__container_item">
+  <div class="left__container">
+    <img class="device_img" [src]="srcImgDevice" alt="" />
+    <section class="text_container">
+      <p class="name_device">{{ devices.name }}</p>
+      <p class="name_room">{{ nameRoomDevice }}</p>
+    </section>
+  </div>
+  <div
+    class="button__container"
+    (click)="changeActionDevice()"
+    (click)="changeShadowDevice()"
+    (click)="replaceImg()"
+    [style]="isOnOffActions() ? 'display: block' : 'display: none;'"
+    [class]="isCurrentState() ? 'button_on' : 'button_off'"
+  >
+    <div class="on-off__container">
+      <svg icon="on-off" height="16" width="16"></svg>
+    </div>
+  </div>
+</section>
+}

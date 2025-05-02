@@ -15,3 +15,7 @@ export declare class UserTokenDto {
     email: string;
     refreshToken: string;
 }
+export declare class OauthTokenDto {
+    email: string;
+    oauthToken: string;
+}
